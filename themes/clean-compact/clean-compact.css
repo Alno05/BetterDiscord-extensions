@@ -1,12 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.0"}*//
-
 /*
-    Installation
-    ------------
-    1. Save this file in %appdata%/BetterDiscord/themes
-    2. Refresh Discord (ctrl+R) or simply restart it
-    3. Go to Settings > BetterDiscord > Themes and enable the theme (might need another refresh after enabling)
-
     Changelog
     ---------
     v1.5.0 (April 3rd 2016): Initial release
@@ -35,12 +27,12 @@
      */
 
     /* General */
-    /*a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var, .modal *, .chat .new-messages-bar button:first-child { font-size: 12px !important }*/
-    * {
+    a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var, .modal *, .chat .new-messages-bar button:first-child {
         font-size: 12px !important;
         /** Fixes random flickering effect */
         backface-visibility: hidden !important;
     }
+
     /* Message timestamp */
     .message-group.compact .timestamp span { font-size: 12px !important; }
     /* Message (sender, content) */
