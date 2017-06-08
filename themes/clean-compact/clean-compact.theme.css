@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.6.8"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.0"}*//
 
 /*
     Installation
@@ -24,6 +24,7 @@
     v1.6.6 Friends online badge fix, divider changes
     v1.6.7 Code block improvements, bring back red "new messages" divider
     v1.6.8 Fix random flickering effect when hovering over chat
+    v1.7.0 (June 8th 2017) Quick fixes to the new guild channel list update
  */
 
 
@@ -66,7 +67,6 @@
     #rtc-connection,
     .channel-textarea textarea,
     .friends-table,
-    .guild-channels .channel-text.selected,
     .private-channels .channel.selected,
     .guilds-add {
         background: transparent !important;
@@ -94,9 +94,9 @@
     }
 
     /* Text / voice channels, friends tab content area */
-    .channels-wrap,
+    .channels-wrap > div:first-of-type,
     #friends {
-        background:rgb(22,22,22) !important;
+        background: rgb(22,22,22) !important;
     }
 
     /* Chat */
@@ -315,19 +315,8 @@
         position: relative;
     }
 
-    .channels-wrap .scroller-wrap { width: 143px !important; }
+    .channels-wrap .ui-scroller-wrap { width: 143px !important; }
 
-    .guild-channels { padding: 0; }
-
-    /* Voice & text channel icons (instant invite, edit channel, arrow) */
-    .guild-channels .icon,
-    .guild-channels .channel-voice .channel-arrow {
-        width: 12px;
-        height: 12px;
-        background-size: 12px 12px;
-    }
-
-    .guild-header header,
     .private-channels .search-bar {
         padding: 15px;
         box-shadow: none;
@@ -335,18 +324,36 @@
         box-sizing: border-box;
     }
 
-    .guild-header header,
+    .channels-wrap > div:first-of-type > div:first-of-type header,
     .private-channels .search-bar {
         height: 53px;
         background: rgb(27,27,27) !important;
+        border-bottom: none;
     }
     .guild-header header span {
         white-space: normal;
         line-height: 100%;
     }
 
-    .guild-channels .channel .channel-name { padding-right: 0 !important; }
-    .guild-channels .channel-text .channel-name:before { color: #738bd7 !important; }
+    /* TEXT-CHANNELS, VOICE-CHANNELS labels */
+    .channels-wrap .scroller > div[class^='wrapperDefault'] {
+        height: 45px;
+        padding-top: 23px;
+        padding-left: 14px;
+    }
+
+    .channels-wrap .scroller > div[class^='wrapperDefault'] div[class^='nameDefault'] {
+        line-height: 19px;
+    }
+
+    .channels-wrap .scroller div[class^='content'] {
+        margin: 0;
+    }
+    .channels-wrap .scroller div[class^='contentSelectedText'] {
+        background: rgb(27,27,27);
+    }
+
+    .channels-wrap .scroller div[class^='content'] .margin-reset { color: #738bd7 !important; }
     .guild-channels .channel-text .badge {
         margin-left: -15px;
         position: absolute;
@@ -448,18 +455,24 @@
     #rtc-connection .btn {
         margin-right: 0;
     }
-    .account {
+
+    .channels-wrap > div[class^='container'] {
         background: rgb(27,27,27) !important;
-        height: 69px !important;
+        border-bottom: none;
+    }
+    /* Aka the previous account info/settings container at the bottom of channel list */
+    .channels-wrap > div:last-of-type {
+        height: 68px !important;
         padding: 0 2px 12px !important;
         align-items: flex-end !important;
         border-top: none;
+        margin-bottom: 0;
     }
-    .account .avatar-small { margin-left: 5px; display: block !important; }
-    .account .btn-group {
+    .channels-wrap > div:last-of-type .avatar-small { margin-left: 5px; display: block !important; }
+    .channels-wrap > div:last-of-type > div:last-of-type {
         position: absolute;
         left: 0;
-        bottom: 50px;
+        bottom: 46px;
         /*border-bottom: 1px solid #1c1e22 !important;*/
         width: 130px;
         border-radius: 0;
@@ -468,25 +481,20 @@
         padding-left: 2px;
     }
 
-    .account .btn {
+    /*.channels-wrap > div:nth-of-type(2) .btn {
         display: block;
         width: 22px;
         height: 22px;
-    }
+    }*/
 
-    .account .btn-group,
-    #rtc-connection .btn-group {
-        border: none;
-    }
-
-    .account .btn, #rtc-connection .btn {
+    .channels-wrap > div:last-of-type .btn, #rtc-connection .btn {
         box-shadow: none !important;
         border-right: 0 !important;
     }
 
-    .account .account-details .discriminator { opacity: 0.5; }
-    .account .account-details .discriminator:hover { opacity: 1; }
-    .account .account-details .discriminator span:first-of-type { color: #738bd7; }
+    .channels-wrap > div:last-of-type > div:nth-of-type(2) .discriminator { opacity: 0.5; }
+    .channels-wrap > div:last-of-type > div:nth-of-type(2) .discriminator:hover { opacity: 1; }
+    .channels-wrap > div:last-of-type > div:nth-of-type(2) .discriminator span:first-of-type { color: #738bd7; }
 
     .links { padding: 75px 10px 20px; }
 
@@ -809,11 +817,9 @@
         border-bottom: 1px solid #738bd7;
         margin-left: 7px;
         transition: width 150ms;
-    }
-
-    .channel-members h2 {
         display: inline-flex;
         white-space: nowrap;
+        margin-top: 18px;
     }
     .channel-members h2:hover {
         white-space: normal;
