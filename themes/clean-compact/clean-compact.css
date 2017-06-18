@@ -17,6 +17,7 @@
     v1.6.7 Code block improvements, bring back red "new messages" divider
     v1.6.8 Fix random flickering effect when hovering over chat
     v1.7.0 (June 8th 2017) Quick fixes to the new guild channel list update
+    v1.7.1 (June 18th 2017) More channel list fixes
  */
 
 
@@ -222,6 +223,7 @@
         background-size: 16px;
         right: initial;
         top: initial;
+        z-index: 2;
     }
 
     .guilds-wrapper .guild-separator { height: 8px !important; }
@@ -282,7 +284,7 @@
         position: absolute;
         z-index: 2;
         top: -15px !important;
-        right: -14px;
+        right: -34px;
         color: white;
         background: none !important;
         width: initial;
@@ -327,25 +329,48 @@
         line-height: 100%;
     }
 
+    .channels-wrap div[class^='scroller-'] {
+        overflow-x: hidden !important;
+        margin-right: -7px;
+    }
+    .channels-wrap div[class^='scroller-'] > div[class^='wrapperDefault'] {
+        height: 35px;
+        padding-top: 16px;
+        padding-left: 13px;
+    }
+    .channels-wrap div[class^='scroller-'] > div[class^='wrapperDefault'] svg {
+        width: 12px;
+        height: 12px;
+        left: 3px;
+        position: relative;
+        top: 2px;
+    }
+
     /* TEXT-CHANNELS, VOICE-CHANNELS labels */
-    .channels-wrap .scroller > div[class^='wrapperDefault'] {
+    .channels-wrap > div[class^='wrapperDefault'] {
         height: 45px;
         padding-top: 23px;
         padding-left: 14px;
     }
 
-    .channels-wrap .scroller > div[class^='wrapperDefault'] div[class^='nameDefault'] {
+    .channels-wrap > div[class^='wrapperDefault'] div[class^='nameDefault'] {
         line-height: 19px;
     }
 
-    .channels-wrap .scroller div[class^='content'] {
+    .channels-wrap div[class^='content'] {
         margin: 0;
     }
-    .channels-wrap .scroller div[class^='contentSelectedText'] {
+    .channels-wrap div[class^='contentSelectedText'] {
         background: rgb(27,27,27);
     }
+    .channels-wrap div[class^='contentHoveredText'] {
+        background: rgb(32,32,32);
+    }
+    .channels-wrap div[class^='containerDefault'] > div:nth-child(2) {
+        padding-left: 5px;
+    }
 
-    .channels-wrap .scroller div[class^='content'] .margin-reset { color: #738bd7 !important; }
+    .channels-wrap div[class^='content'] .margin-reset { color: #738bd7 !important; }
     .guild-channels .channel-text .badge {
         margin-left: -15px;
         position: absolute;
@@ -416,35 +441,40 @@
         border-bottom: 1px solid #1c1e22;
     }
 
-    #rtc-connection {
-        position: relative;
-        padding: 7px 10px;
-        overflow: hidden;
-        border-top: none;
-        background: rgb(27,27,27) !important;
+    .rtc-connection-status {
+        font-size: 0.9em !important;
+        white-space: nowrap;
+        margin-left: -5px;
     }
-    #rtc-connection .rtc-connection-status { font-size: 0.9em !important; }
-    #rtc-connection .rtc-connection-channel { margin-right: 0; margin-top: 6px; }
-    #rtc-connection .btn-group {
+    .rtc-connection-channel {
+        margin-right: 0;
+        margin-top: 6px;
+    }
+
+    .channels-wrap > div[class^='container']:nth-child(2):not(:last-child) {
+        position: relative;
+        overflow: hidden;
+    }
+    .channels-wrap > div[class^='container']:nth-child(2):not(:last-child) > div:nth-child(2) {
         background: rgb(27,27,27);
         position: absolute;
         padding: 10px 7px 9px 5px;
-        right: -58px;
+        right: -75px;
         transition: right 150ms;
         overflow: hidden;
         z-index: 2;
         bottom: initial;
         top: 0;
     }
-    #rtc-connection:hover .btn-group,
-    #rtc-connection .btn-group:hover {
+    .channels-wrap > div[class^='container']:nth-child(2):not(:last-child):hover div:nth-child(2),
+    .channels-wrap > div[class^='container']:nth-child(2):not(:last-child) div:nth-child(2):hover {
         right: 0;
     }
-    #rtc-connection .btn {
+    .btn {
         width: 22px;
         height: 22px;
     }
-    #rtc-connection .btn {
+    .btn {
         margin-right: 0;
     }
 
@@ -1095,7 +1125,6 @@
 
     /* Unread messages icon */
     .guild.unread::before { display: none; }
-    .guilds .guild.unread:not(.active) .guild-inner::after { top: -10px; }
 
     .bd-minimal .theme-dark .comment { border-left: none; }
 
