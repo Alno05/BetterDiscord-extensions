@@ -1,3 +1,5 @@
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.1"}*//
+
 /*
     Changelog
     ---------
@@ -18,6 +20,7 @@
     v1.6.8 Fix random flickering effect when hovering over chat
     v1.7.0 (June 8th 2017) Quick fixes to the new guild channel list update
     v1.7.1 (June 18th 2017) More channel list fixes
+    v1.7.2 (July 22nd 2017) Message input area fixes
  */
 
 
@@ -568,13 +571,18 @@
 
 /******************************* Text chat section *******************************/
 
+    /* Bottom chat area (the padded container including the input box and typing indicator) */
     .chat form {
         margin: 0;
-        padding: 0 20px;
+        padding: 0 17px;
         background: rgb(22,22,22);
         border-top: none !important;
     }
 
+    /* Input box */
+    .channel-text-area-default { margin: 10px 0 26px; }
+    .channel-text-area-default textarea { font-size: 12px !important; }
+    .channel-text-area-default > div:first-child { background-color: rgb(27,27,27); }
     .chat form .typing { padding-left: 20px; }
 
     /* Message section header */
@@ -869,7 +877,6 @@
         padding: 1px 0 1px 10px;
         box-sizing: border-box;
         margin-bottom: 5px;
-        border-bottom: 1px solid rgba(0,0,0,0.14);
         position: relative;
         width: 110px;
         overflow: visible;
