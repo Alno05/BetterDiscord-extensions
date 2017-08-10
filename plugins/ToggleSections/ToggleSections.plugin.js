@@ -16,6 +16,7 @@
     v1.4    (January 10th 2017):    Fix misc. crashes, switch to new BD settings storage, refactor to ES6 class syntax
     v1.5    (May 6th 2017):         Added a Container class for simplified state management. Added hotkeys for toggling guild/channel sections
                                     Ctrl+Shift+X toggles guilds, Ctrl+Shift+C toggles channels
+    v1.5.1  (August 10th 2017):     Fix styling when using Clean & Compact
  */
 
 class TSContainer {
@@ -74,7 +75,7 @@ class TSContainer {
         if (buttonElemExists || !isEnabled)
             return;
 
-        containerElem.append(`<div class="toggle-section ${position}" id="toggle-${className}"></div>`);
+        containerElem.prepend(`<span class="toggle-section ${position}" id="toggle-${className}"></span>`);
         containerElem.addClass("toggleable");
 
         if(isClosed) close();
