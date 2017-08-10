@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.1"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.3"}*//
 
 /*
     Changelog
@@ -21,6 +21,7 @@
     v1.7.0 (June 8th 2017) Quick fixes to the new guild channel list update
     v1.7.1 (June 18th 2017) More channel list fixes
     v1.7.2 (July 22nd 2017) Message input area fixes
+    v1.7.3 (August 10th 2017) Fix a selector to hide the member "Playing" label again
  */
 
 
@@ -855,10 +856,10 @@
         white-space: normal;
     }
 
-    .channel-members .member .member-activity {
+    .channel-members .member .member-activity-text {
         font-size: 0px !important;
     }
-    .channel-members .member .member-activity strong {
+    .channel-members .member .member-activity-text strong {
         white-space: normal;
         font-size: 9px !important;
         max-height: 10px;
