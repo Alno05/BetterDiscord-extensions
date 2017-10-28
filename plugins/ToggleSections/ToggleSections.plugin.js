@@ -17,6 +17,7 @@
     v1.5    (May 6th 2017):         Added a Container class for simplified state management. Added hotkeys for toggling guild/channel sections
                                     Ctrl+Shift+X toggles guilds, Ctrl+Shift+C toggles channels
     v1.5.1  (August 10th 2017):     Fix styling when using Clean & Compact
+    v1.5.2  (October 28th 2017):    Fix broken channels wrapper selector
  */
 
 class TSContainer {
@@ -115,11 +116,6 @@ class ToggleSections {
     constructor() {
         this.settings = defaultSettings;
 
-        this.containers = [
-            new TSContainer(this, 0, { label: 'Guild list', className: 'guilds-wrapper', position: 'right' }),
-            new TSContainer(this, 1, { label: 'Channel list', className: 'channels-wrap', position: 'right' }),
-        ];
-
         this.start = this.start.bind(this);
         this.onSwitch = this.onSwitch.bind(this);
         this.observer = this.observer.bind(this);
@@ -165,6 +161,14 @@ class ToggleSections {
             bdPluginStorage.set("ToggleSections", "settings", JSON.stringify(defaultSettings));
 
         this.settings = JSON.parse(bdPluginStorage.get("ToggleSections", "settings"));
+        
+        // There's no fixed .channels-wrap element to target anymore, so need to look for the element
+        const channelsClassName = $('*[class^="channels-"]').attr("class").split(" ").find(cn => cn.startsWith("channels-"))
+
+        this.containers = [
+            new TSContainer(this, 0, { label: 'Guild list', className: 'guilds-wrapper', position: 'right' }),
+            new TSContainer(this, 1, { label: 'Channel list', className: channelsClassName, position: 'right' }),
+        ];
 
         onSwitch();
         addStyling();
