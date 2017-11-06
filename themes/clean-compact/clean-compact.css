@@ -22,7 +22,8 @@
     v1.7.1 (June 18th 2017) More channel list fixes
     v1.7.2 (July 22nd 2017) Message input area fixes
     v1.7.3 (August 10th 2017) Fix a selector to hide the member "Playing" label again
-	v1.7.4 (October 27th 2017) Fix breaking changes
+    v1.7.4 (October 27th 2017) Fix breaking changes
+    v1.7.5 (November 6th 2017) Fix unread indicator, minor improvements to guild channel styles
  */
 
 
@@ -57,7 +58,7 @@
     .chat,
     .typing,
     .content,
-    .guild-channels,
+    div[class^='channels-'],
     .private-channels,
     .divider,
     .divider-red span,
@@ -112,8 +113,8 @@
 
     /* Channel, user etc. hover effect */
     .private-channels .channel:hover,
-    .guild-channels .channel-text:hover,
-    .guild-channels .channel-voice .channel-arrow:hover,
+    div[class^='channels-'] .channel-text:hover,
+    div[class^='channels-'] .channel-voice .channel-arrow:hover,
     #friends .friends-table .friends-row:hover {
         background: rgba(255,255,255,0.02) !important;
     }
@@ -285,7 +286,7 @@
     }
 
     .guilds .guild.unread:not(.active) .guild-inner::after {
-        content: "ðŸ’¬";
+        content: "\01F4AC";
         position: absolute;
         z-index: 2;
         top: -15px !important;
@@ -364,6 +365,7 @@
 
     div[class^='channels-'] div[class^='content'] {
         margin: 0;
+        padding: 0 5px;
     }
     div[class^='channels-'] div[class^='contentSelectedText'] {
         background: rgb(27,27,27);
@@ -376,44 +378,31 @@
     }
 
     div[class^='channels-'] div[class^='content'] .margin-reset { color: #738bd7 !important; }
-    .guild-channels .channel-text .badge {
+    div[class^='channels-'] .channel-text .badge {
         margin-left: -15px;
         position: absolute;
         right: 22px;
     }
 
-    .guild-channels .channel-text a {
+    div[class^='channels-']  .channel-text a {
         padding: 6px;
         box-sizing: border-box;
     }
 
-    .guild-channels .channel-text.unread:not(.selected):not(.channel-muted)::before {
-        top: 7px;
-        left: -7px;
-    }
-
-    .guild-channels header {
+    div[class^='channels-'] header {
         padding: 0 5px;
-        margin: 5px 0 0;
-        border-top: 2px solid rgba(0,0,0,0.14);
+        margin: 0;
         text-align: center;
     }
-    .guild-channels header:nth-of-type(2) {
+    div[class^='channels-'] header:nth-of-type(2) {
         margin: 15px 0 0;
     }
-    .guild-channels header span {
+    div[class^='channels-'] header span {
         white-space: nowrap;
     }
 
-    .guild-channels .channel-text a { padding 5px; }
-    .guild-channels .channel-voice {	padding: 5px 5px 5px 8px; }
-    .guild-channels .channel-voice-states {
-        padding-left: 0;
-        margin-top: 0;
-    }
-
-    .guild-channels .channel-text.unread:not(.selected):not(.channel-muted)::before {
-        content: "ðŸ’¬";
+    div[class^='channels-'] div[class^='wrapperUnreadText']::before {
+        content: "\01F4AC";
         background: none;
         width: 0;
         height: 0;
@@ -429,16 +418,10 @@
         animation-timing-function: ease-in-out;
     }
 
-    .guild-channels .channel-voice .channel-arrow {
-        margin-right: 2px;
-        margin-left: -5px;
+    div[class^='channels-'] div[class^='unread-'] {
         display: none;
     }
 
-    .guild-channels .channel-voice.audio .channel-arrow { display: block; }
-    .guild-channels .channel-voice.audio .channel-arrow:hover {
-        color: white;
-    }
     .guild-header ul a { margin: 0; }
     .guild-header.guild-header-open ul {
         opacity: 1;
