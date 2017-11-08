@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.5"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.6"}*//
 
 /*
     Changelog
@@ -24,6 +24,7 @@
     v1.7.3 (August 10th 2017) Fix a selector to hide the member "Playing" label again
     v1.7.4 (October 27th 2017) Fix breaking changes
     v1.7.5 (November 6th 2017) Fix unread indicator, minor improvements to guild channel styles
+    v1.7.6 (November 8th 2017) Fix member heights
  */
 
 
@@ -330,6 +331,22 @@
         background: rgb(27,27,27) !important;
         border-bottom: none;
     }
+    
+    .private-channels .channel,
+    .private-channels .channel a {
+        height: auto !important;
+    }
+    
+    .private-channels .channel a:hover .channel-activity-text {
+        max-height: auto !important;
+    }
+
+    .private-channels .channel .channel-activity-text {
+        text-overflow: initial;
+        white-space: initial;
+        width: 80px;
+    }
+    
     .guild-header header span {
         white-space: normal;
         line-height: 100%;
@@ -841,10 +858,12 @@
         white-space: normal;
     }
 
-    .channel-members .member .member-activity-text {
+    .channel-members .member .member-activity-text,
+    .private-channels .channel .channel-activity-text {
         font-size: 0px !important;
     }
-    .channel-members .member .member-activity-text strong {
+    .channel-members .member .member-activity-text strong,
+    .private-channels .channel .channel-activity-text strong {
         white-space: normal;
         font-size: 9px !important;
         max-height: 10px;
@@ -865,6 +884,7 @@
         margin-bottom: 5px;
         position: relative;
         width: 110px;
+        height: auto;
         overflow: visible;
     }
 
@@ -1025,11 +1045,7 @@
         border-radius: 50%;
         margin-right: 8px;
     }
-    .private-channels .channel a .channel-game {
-        white-space: normal;
-        overflow: initial;
-        text-overflow: initial;
-    }
+    .private-channels .channel a .channel-game > span,
     .private-channels .channel a .channel-game > span { display: none !important; }
     .private-channels .channel a .channel-name { max-height: 25px; transition: all 150ms; }
     .private-channels .channel a:hover .channel-name { max-height: 150px !important; }
