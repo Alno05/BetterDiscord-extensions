@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.6"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.7"}*//
 
 /*
     Changelog
@@ -25,6 +25,7 @@
     v1.7.4 (October 27th 2017) Fix breaking changes
     v1.7.5 (November 6th 2017) Fix unread indicator, minor improvements to guild channel styles
     v1.7.6 (November 8th 2017) Fix member heights
+    v1.7.7 (January 17th 2018) Fix typing indicator & member list bot tag
  */
 
 
@@ -57,7 +58,7 @@
     /* Container transparency */
     .links,
     .chat,
-    .typing,
+    div[class^='typing'],
     .content,
     div[class^='channels-'],
     .private-channels,
@@ -586,7 +587,7 @@
     .chat form > div:first-child { margin: 10px 0 26px; }
     .chat form > div:first-child textarea { font-size: 12px !important; }
     .chat form > div:first-child > div:first-child { background-color: rgb(27,27,27); }
-    .chat form .typing { padding-left: 20px; }
+    .chat form div[class^='typing'] { padding-left: 20px; }
 
     /* Message section header */
     .chat > div[class^='titleWrapper'] > div {
@@ -619,7 +620,7 @@
     .message-group .message { position: relative; }
     .message-group.compact { margin-left: 5px; }
     .message-group.compact .comment .markup { padding-left: 75px; text-indent: -75px; }
-    .message-group.compact .bot-tag { margin: 0 3px 0 0 !important; line-height: 22px; }
+    .message-group.compact div[class^='botTag'] { margin: 0 3px 0 0 !important; line-height: 22px; }
     .message-group .comment .markup {
         min-height: 25px;
         line-height: 25px;
@@ -896,7 +897,7 @@
 
     .member-username[style*="color:#010000"] { color: #fff !important; }
 
-    .member-username .bot-tag {
+    .member-username span[class^='botTag'] {
         display: block !important;
         position: absolute;
         left: 15px;
