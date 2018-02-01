@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.7"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.8"}*//
 
 /*
     Changelog
@@ -26,6 +26,7 @@
     v1.7.5 (November 6th 2017) Fix unread indicator, minor improvements to guild channel styles
     v1.7.6 (November 8th 2017) Fix member heights
     v1.7.7 (January 17th 2018) Fix typing indicator & member list bot tag
+    v1.7.8 (February 2nd 2018) Fix Spotify invitation embed (and other embeds in general), fix background color in group call, adjust additional info indicator icon @ member list, fix annoying "NEW UNREADS" indicator that was slightly visible even though there were no new messages
  */
 
 
@@ -526,6 +527,11 @@
 
     .links { padding: 75px 10px 20px; }
 
+    /* "NEW UNREADS" indicator */
+    div[class^='unread'] > div {
+        font-size: 12px !important;
+    }
+
 
 /******************************* Top bar (channel name, description, buttons, search etc.) *******************************/
 
@@ -628,8 +634,15 @@
         margin-top: 0;
     }
     .message-group.compact .comment .markup { margin-bottom: 0; }
-    .message-group .embed { background: rgb(22,22,22); border: none !important; }
+    .message-group .embed,
+    .message-group .game-invite-embed { background: rgb(22,22,22); border: none !important; }
     .message-group .embed-field .markup { margin-top: 0; }
+
+    .message-group .game-invite-embed {
+        height: auto;
+        padding: 10px;
+    }
+    
     .message-group .message .markup a { white-space: pre; }
     .message-group .mentioned .message-text { background: rgb(27,27,27) !important; }
 
@@ -779,7 +792,7 @@
     .message-group.compact .timestamp:hover { color: #99aab5 !important; }
 
     /* Embedded previews etc */
-    .message-group.compact .embed { padding: 8px 10px; }
+    .message-group.compact .embed { padding: 0; }
     .message-group.compact .embed .embed-author,
     .message-group.compact .embed .embed-title,
     .message-group.compact .embed .embed-provider,
@@ -873,6 +886,7 @@
         width: 50px;
         transition: all 250ms;
     }
+    .channel-members .member .member-activity-icon { margin-left: -10px; }
     .channel-members .member:hover .member-activity strong { max-height: 100px; }
     .channel-members .member:hover { background: rgba(115, 139, 215, 0.15) !important; }
     .channel-members .member.popout-open { background: rgba(115, 139, 215, 0.25) !important; }
@@ -895,9 +909,9 @@
         box-sizing: border-box;
     }
 
-    .member-username[style*="color:#010000"] { color: #fff !important; }
+    .channel-members .member .member-username[style*="color:#010000"] { color: #fff !important; }
 
-    .member-username span[class^='botTag'] {
+    .channel-members .member .member-username span[class^='botTag'] {
         display: block !important;
         position: absolute;
         left: 15px;
@@ -1071,6 +1085,11 @@
     .friends-table .messages .message-group.compact .timestamp:hover,
     .messages-wrapper .messages .message-group.compact .timestamp:hover {
         color: #99aab5 !important;
+    }
+    
+    .private-channel-call > div {
+        background: rgb(19,19,19) !important;
+        border-bottom: 2px solid rgb(22,22,22);
     }
 
 
