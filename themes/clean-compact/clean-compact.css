@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.8"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.9"}*//
 
 /*
     Changelog
@@ -27,6 +27,7 @@
     v1.7.6 (November 8th 2017) Fix member heights
     v1.7.7 (January 17th 2018) Fix typing indicator & member list bot tag
     v1.7.8 (February 2nd 2018) Fix Spotify invitation embed (and other embeds in general), fix background color in group call, adjust additional info indicator icon @ member list, fix annoying "NEW UNREADS" indicator that was slightly visible even though there were no new messages
+    v1.7.9 (April 1st 2018) Fix member list selectors, fix message timestamp and bot tag font size & position
  */
 
 
@@ -38,16 +39,23 @@
 
     /* General */
     a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var, .modal *, .chat .new-messages-bar button:first-child {
-        font-size: 12px !important;
+        font-size: 16px !important;
         /** Fixes random flickering effect */
         backface-visibility: hidden !important;
     }
 
     /* Message timestamp */
-    .message-group.compact .timestamp span { font-size: 12px !important; }
+    .message-group.compact .markup span.timestamp,
+    .message-group h2 span.timestamp {
+        font-size: 0.8rem !important;
+    }
+    .message-group.compact .markup span.timestamp {
+        position: relative;
+        top: -3px;
+    }
     /* Message (sender, content) */
     .message-text .markup span,
-    .message-text .markup .user-name { font-size: 13px !important; }
+    .message-text .markup .user-name { font-size: 16px !important; }
 
     .app > .flex-spacer,
     #friends .friends-table .friends-table-body { background: rgb(17,17,17) !important; }
@@ -61,6 +69,7 @@
     .chat,
     div[class^='typing'],
     .content,
+    div[class^='content'],
     div[class^='channels-'],
     .private-channels,
     .divider,
@@ -173,7 +182,7 @@
         left: 27px;
     }
 
-    .guilds .guild .avatar-small {
+    .guilds .guild div[class^='avatar-'] {
         z-index: 2;
     }
 
@@ -199,7 +208,7 @@
     .guilds-error { width: 35px; height: 35px; line-height: 32px; margin-left: 3px; }
     .guilds .guild, .guilds .guild .guilds-error { width: 35px !important; height: 35px !important; line-height: 35px !important; background-size: 35px 35px !important; }
     .guilds .guild:first-of-type:hover ~ .friends-online, .guilds .guild:first-of-type.active ~ .friends-online { opacity: 1; }
-    .guilds .guild .avatar-small { width: 35px !important; height: 35px !important; background-size: 35px 35px !important; }
+    .guilds .guild div[class^='avatar-'] { width: 35px !important; height: 35px !important; background-size: 35px 35px !important; }
     .guilds .guild .guild-inner a {
         width: 35px !important;
         height: 35px !important;
@@ -403,11 +412,10 @@
         right: 22px;
     }
 
-    div[class^='channels-']  .channel-text a {
+    div[class^='channels-'] .channel-text a {
         padding: 6px;
         box-sizing: border-box;
     }
-
     div[class^='channels-'] header {
         padding: 0 5px;
         margin: 0;
@@ -418,6 +426,9 @@
     }
     div[class^='channels-'] header span {
         white-space: nowrap;
+    }
+    div[class^='channels-'] .private-channels header {
+        margin: 10px 0;
     }
 
     div[class^='channels-'] div[class^='wrapperUnreadText']::before {
@@ -497,7 +508,7 @@
         border-top: none;
         margin-bottom: 0;
     }
-    div[class^='channels-'] > div:last-of-type .avatar-small { margin-left: 5px; display: block !important; }
+    div[class^='channels-'] > div:last-of-type div[class^='avatar-'] { margin-left: 5px; display: block !important; }
     div[class^='channels-'] > div:last-of-type > div:last-of-type {
         position: absolute;
         left: 0;
@@ -510,12 +521,6 @@
         padding-left: 2px;
     }
 
-    /*div[class^='channels-'] > div:nth-of-type(2) .btn {
-        display: block;
-        width: 22px;
-        height: 22px;
-    }*/
-
     div[class^='channels-'] > div:last-of-type .btn, #rtc-connection .btn {
         box-shadow: none !important;
         border-right: 0 !important;
@@ -526,7 +531,7 @@
     div[class^='channels-'] > div:last-of-type > div:nth-of-type(2) .discriminator span:first-of-type { color: #738bd7; }
 
     .links { padding: 75px 10px 20px; }
-
+    
     /* "NEW UNREADS" indicator */
     div[class^='unread'] > div {
         font-size: 12px !important;
@@ -591,7 +596,7 @@
 
     /* Input box */
     .chat form > div:first-child { margin: 10px 0 26px; }
-    .chat form > div:first-child textarea { font-size: 12px !important; }
+    .chat form > div:first-child textarea { font-size: 16px !important; }
     .chat form > div:first-child > div:first-child { background-color: rgb(27,27,27); }
     .chat form div[class^='typing'] { padding-left: 20px; }
 
@@ -626,7 +631,14 @@
     .message-group .message { position: relative; }
     .message-group.compact { margin-left: 5px; }
     .message-group.compact .comment .markup { padding-left: 75px; text-indent: -75px; }
-    .message-group.compact div[class^='botTag'] { margin: 0 3px 0 0 !important; line-height: 22px; }
+    .message-group span[class^='botTag'] {
+        font-size: 0.8rem !important;
+    }
+    .message-group.compact span[class^='botTag'] {
+        margin: 2px 3px 0 0 !important;
+        line-height: 20px;
+        font-size: 0 !important;
+    }
     .message-group .comment .markup {
         min-height: 25px;
         line-height: 25px;
@@ -872,11 +884,11 @@
         white-space: normal;
     }
 
-    .channel-members .member .member-activity-text,
+    .channel-members div[class*='member-'] div[class^='activityText'] ,
     .private-channels .channel .channel-activity-text {
         font-size: 0px !important;
     }
-    .channel-members .member .member-activity-text strong,
+    .channel-members div[class*='member-'] div[class^='activityText'] strong,
     .private-channels .channel .channel-activity-text strong {
         white-space: normal;
         font-size: 9px !important;
@@ -886,13 +898,13 @@
         width: 50px;
         transition: all 250ms;
     }
-    .channel-members .member .member-activity-icon { margin-left: -10px; }
-    .channel-members .member:hover .member-activity strong { max-height: 100px; }
-    .channel-members .member:hover { background: rgba(115, 139, 215, 0.15) !important; }
-    .channel-members .member.popout-open { background: rgba(115, 139, 215, 0.25) !important; }
-    .channel-members .member.popout-open:hover { background: rgba(115, 139, 215, 0.35); }
+    .channel-members div[class*='member-'] svg[class^='activityIcon'] { margin: -4px 0 0 -5px; }
+    .channel-members div[class*='member-']:hover div[class^='activityText'] strong { max-height: 100px; }
+    .channel-members div[class*='member-']:hover { background: rgba(115, 139, 215, 0.15) !important; }
+    .channel-members div[class*='member-'].popout-open { background: rgba(115, 139, 215, 0.25) !important; }
+    .channel-members div[class*='member-'].popout-open:hover { background: rgba(115, 139, 215, 0.35); }
 
-    .channel-members .member {
+    .channel-members div[class*='member-'] {
         color: hsla(0,0%,100%,.9) !important;
         padding: 1px 0 1px 10px;
         box-sizing: border-box;
@@ -903,15 +915,20 @@
         overflow: visible;
     }
 
-    .channel-members .member .member-inner {
+    .channel-members div[class*='member-'] div[class^='memberInner-'] {
         width: 80px;
-        padding: 0 0 0 8px;
+        padding: 0;
         box-sizing: border-box;
     }
 
-    .channel-members .member .member-username[style*="color:#010000"] { color: #fff !important; }
+    .channel-members div[class*='member-'] div[class^='content-'] {
+        padding: 0;
+        margin: 0;
+    }
 
-    .channel-members .member .member-username span[class^='botTag'] {
+    .channel-members div[class*='member-'] div[class^='username-'][style*="color:#010000"] { color: #fff !important; }
+
+    .channel-members div[class*='member-'] div[class^='nameTag-'] span[class*='botTag'] {
         display: block !important;
         position: absolute;
         left: 15px;
@@ -922,12 +939,12 @@
         height: 15px;
     }
 
-    .channel-members .member + h2 {
+    .channel-members div[class*='member-'] + h2 {
         margin-top: 20px;
     }
 
     /* User image @ channel's user list */
-    .channel-members .avatar-small {
+    .channel-members div[class^='avatar-'] {
         width: 20px;
         height: 20px;
         background-size: 20px 20px;
@@ -937,7 +954,7 @@
     }
 
     /* Online status indicator */
-    .channel-members .avatar-small .status {
+    .channel-members div[class^='avatar-'] .status {
         top: 65%;
         right: -4px;
         border: 2px solid #1c1e22;
@@ -945,14 +962,14 @@
     }
 
     /* Offline user */
-    .channel-members .member.member-status-offline .member-inner {
+    .channel-members div[class*='member-'].memberOffline div[class^='memberInner-'] {
         padding: 0 0 0 5px;
     }
 
-    .channel-members .member.member-status-offline::before,
-    .channel-members .member.member-status-offline::after { display: none !important; }
+    .channel-members div[class*='member-'].memberOffline::before,
+    .channel-members div[class*='member-'].memberOffline::after { display: none !important; }
 
-    .channel-members .member.member-status-offline .avatar-small {
+    .channel-members div[class*='member-'].memberOffline div[class^='avatar-'] {
         height: 0;
         width: 0;
         background-size: 0 0;
@@ -1053,7 +1070,7 @@
 
     .private-channels .channel { padding-left: 10px; padding-right: 6px; }
     .private-channels .channel a { padding-left: 0; margin: 1px 0; !important }
-    .private-channels .channel a .avatar-small {
+    .private-channels .channel a div[class^='avatar-'] {
         width: 25px;
         height: 25px;
         background-size: 25px;
@@ -1128,7 +1145,7 @@
         left: 0;
     }
 
-    .bd-minimal .guilds .friends-icon, .bd-minimal .guilds .guild, .bd-minimal .guilds .guild .avatar-small, .bd-minimal .guilds .guild .guild-inner, .bd-minimal .guilds .guild .guild-inner a {
+    .bd-minimal .guilds .friends-icon, .bd-minimal .guilds .guild, .bd-minimal .guilds .guild div[class^='avatar-'], .bd-minimal .guilds .guild .guild-inner, .bd-minimal .guilds .guild .guild-inner a {
         width: 20px !important;
         height: 20px !important;
         background-size: 100% !important;
@@ -1159,15 +1176,15 @@
 
     .bd-minimal .channel-members-wrap { width: 80px; }
     .bd-minimal .channel-members { width: 80px; }
-    .bd-minimal .channel-members .member { padding: 0; }
-    .bd-minimal .channel-members .member .member-inner { padding: 1px 8px; }
+    .bd-minimal .channel-members div[class*='member-'] { padding: 0; }
+    .bd-minimal .channel-members div[class*='member-'] div[class^='memberInner-'] { padding: 1px 8px; }
 
     /* User list online status indicator */
-    .bd-minimal .channel-members .avatar-small .status { top: 11px !important; }
+    .bd-minimal .channel-members div[class^='avatar-'] .status { top: 11px !important; }
 
     .bd-minimal .account .username { display: block; }
 
-    .bd-minimal .channel-members .avatar-small .status-typing {	width: 17px !important;	}
+    .bd-minimal .channel-members div[class^='avatar-'] .status-typing {	width: 17px !important;	}
 
 
 
