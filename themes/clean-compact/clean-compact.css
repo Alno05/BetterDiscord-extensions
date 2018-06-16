@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.12"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.13"}*//
 
 /*
     Changelog
@@ -31,6 +31,7 @@
     v1.7.10 (April 5th 2018) Second round of member list selector fixes, public server button font-size adjustment
     v1.7.11 (May 5th 2018) Fix `members` tab in guild settings
     v1.7.12 (June 16th 2018) Fix guild icons
+    v1.7.13 (June 16th 2018) Fix DM notification icon, fix Spotify "listening along" area (or hide most of it)
  */
 
 
@@ -216,6 +217,7 @@
         width: 35px !important;
         height: 35px !important;
         border-radius: 50% !important;
+        background-size: 35px 35px !important;
         overflow: hidden;
         border: 2px solid rgba(255,255,255,0.15);
         position: relative;
@@ -507,6 +509,22 @@
         background: rgb(27,27,27) !important;
         border-bottom: none;
     }
+
+    div[class^='listeningAlong-'] {
+        background: rgb(27,27,27) !important;
+        padding: 6px !important;
+    }
+
+    /* "Listening along on Spotify" */
+    div[class^='listeningAlong-'] > div:nth-of-type(1) {
+        display: none;
+    }
+
+    /* Listeners */
+    div[class^='listeningAlong-'] > div:nth-of-type(2) {
+        justify-content: flex-start;
+    }
+
     /* Aka the previous account info/settings container at the bottom of channel list */
     div[class^='channels-'] > div:last-of-type {
         height: 68px !important;
