@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.11"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.12"}*//
 
 /*
     Changelog
@@ -30,6 +30,7 @@
     v1.7.9 (April 1st 2018) Fix member list selectors, fix message timestamp and bot tag font size & position
     v1.7.10 (April 5th 2018) Second round of member list selector fixes, public server button font-size adjustment
     v1.7.11 (May 5th 2018) Fix `members` tab in guild settings
+    v1.7.12 (June 16th 2018) Fix guild icons
  */
 
 
@@ -214,11 +215,15 @@
     .guilds .guild .guild-inner a {
         width: 35px !important;
         height: 35px !important;
-        background-size: 35px 35px !important;
         border-radius: 50% !important;
         overflow: hidden;
         border: 2px solid rgba(255,255,255,0.15);
         position: relative;
+    }
+    .guilds-wrapper .guilds .guild-icon {
+        width: 35px !important;
+        height: 35px !important;
+        border-radius: 50% !important;
     }
     .guilds .friends-icon {
         width: 25px !important;
