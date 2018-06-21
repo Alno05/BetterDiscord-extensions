@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.13"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.14"}*//
 
 /*
     Changelog
@@ -32,6 +32,7 @@
     v1.7.11 (May 5th 2018) Fix `members` tab in guild settings
     v1.7.12 (June 16th 2018) Fix guild icons
     v1.7.13 (June 16th 2018) Fix DM notification icon, fix Spotify "listening along" area (or hide most of it)
+    v1.7.14 (June 21th 2018) Member list selector fixes
  */
 
 
@@ -118,7 +119,7 @@
     .content .flex-spacer { background: rgb(17,17,17); }
 
     /* Channel user list */
-    div[class^='membersWrap-'] div[class*='members-'] { background: rgb(22,22,22) !important; }
+    .da-membersWrap div[class*='members-'] { background: rgb(22,22,22) !important; }
 
     /* Channel use list loading indicators */
     .channel-members-loading { background: rgba(35,35,35,0.2) !important; }
@@ -186,7 +187,7 @@
         left: 27px;
     }
 
-    .guilds .guild div[class^='avatar-'] {
+    .guilds .guild .da-avatarWrapper {
         z-index: 2;
     }
 
@@ -212,7 +213,7 @@
     .guilds-error { width: 35px; height: 35px; line-height: 32px; margin-left: 3px; }
     .guilds .guild, .guilds .guild .guilds-error { width: 35px !important; height: 35px !important; line-height: 35px !important; background-size: 35px 35px !important; }
     .guilds .guild:first-of-type:hover ~ .friends-online, .guilds .guild:first-of-type.active ~ .friends-online { opacity: 1; }
-    .guilds .guild div[class^='avatar-'] { width: 35px !important; height: 35px !important; background-size: 35px 35px !important; }
+    .guilds .guild .da-avatarWrapper { width: 35px !important; height: 35px !important; background-size: 35px 35px !important; }
     .guilds .guild .guild-inner a {
         width: 35px !important;
         height: 35px !important;
@@ -533,7 +534,7 @@
         border-top: none;
         margin-bottom: 0;
     }
-    div[class^='channels-'] > div:last-of-type div[class^='avatar-'] { margin-left: 5px; display: block !important; }
+    div[class^='channels-'] > div:last-of-type .da-avatarWrapper { margin-left: 5px; display: block !important; }
     div[class^='channels-'] > div:last-of-type > div:last-of-type {
         position: absolute;
         left: 0;
@@ -874,7 +875,7 @@
 
     .header-toolbar .separator.separator-win { margin-right: 103px; }
 
-    div[class^='membersWrap-'] div[class*='members-'] {
+    .da-membersWrap div[class*='members-'] {
         width: 105px;
         min-width: 0 !important;
         padding: 0;
@@ -884,7 +885,7 @@
         padding-bottom: 125px !important;
     }
 
-    div[class^='membersWrap-'] {
+    .da-membersWrap {
         width: 110px;
         min-width: 0 !important;
         display: flex !important;
@@ -893,7 +894,7 @@
     }
 
     /* Channel's user list group labels */
-    div[class*='membersGroup'] {
+    .da-membersGroup {
         position: relative;
         padding: 0 0 2px 0;
         width: 100px;
@@ -908,15 +909,15 @@
         font-size: 0.85rem !important;
         margin-bottom: 0.5em;
     }
-    div[class*='membersGroup']:hover {
+    .da-membersGroup:hover {
         white-space: normal;
     }
 
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] div[class^='activityText'] ,
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-activityText ,
     .private-channels .channel .channel-activity-text {
         font-size: 0px !important;
     }
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] div[class^='activityText'] strong,
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-activityText strong,
     .private-channels .channel .channel-activity-text strong {
         white-space: normal;
         font-size: 9px !important;
@@ -926,13 +927,13 @@
         width: 50px;
         transition: all 250ms;
     }
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] svg[class^='activityIcon'] { margin: -4px 0 0 -5px; }
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO']:hover div[class^='activityText'] strong { max-height: 100px; }
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO']:hover { background: rgba(115, 139, 215, 0.15) !important; }
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'].popout-open { background: rgba(115, 139, 215, 0.25) !important; }
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'].popout-open:hover { background: rgba(115, 139, 215, 0.35); }
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-activityIcon { margin: -4px 0 0 -5px; }
+    .da-membersWrap div[class*='members-'] .da-member:hover .da-activityText strong { max-height: 100px; }
+    .da-membersWrap div[class*='members-'] .da-member:hover { background: rgba(115, 139, 215, 0.15) !important; }
+    .da-membersWrap div[class*='members-'] .da-member.popout-open { background: rgba(115, 139, 215, 0.25) !important; }
+    .da-membersWrap div[class*='members-'] .da-member.popout-open:hover { background: rgba(115, 139, 215, 0.35); }
 
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] {
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] {
         color: hsla(0,0%,100%,.9) !important;
         padding: 1px 0 1px 10px;
         box-sizing: border-box;
@@ -943,20 +944,24 @@
         overflow: visible;
     }
 
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] div[class^='memberInner-'] {
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-memberInner {
         width: 80px;
-        padding: 0;
+        padding: 3px 0 0 6px;
         box-sizing: border-box;
     }
 
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] div[class^='content-'] {
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-content {
         padding: 0;
         margin: 0;
     }
 
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] div[class^='username-'][style*="color:#010000"] { color: #fff !important; }
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-username[style*="color:#010000"] { color: #fff !important; }
 
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] div[class^='nameTag-'] span[class*='botTag'] {
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-nameTag {
+        overflow: visible;
+    }
+
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-nameTag .da-botTag {
         display: block !important;
         position: absolute;
         left: 15px;
@@ -967,37 +972,37 @@
         height: 15px;
     }
 
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] + h2 {
+    .da-membersWrap div[class*='members-'] div[class^='memberO'] + h2 {
         margin-top: 20px;
     }
 
     /* User image @ channel's user list */
-    div[class^='membersWrap-'] div[class*='members-'] div[class^='avatar-'] {
+    .da-membersWrap div[class*='members-'] .da-avatarWrapper {
         width: 20px;
         height: 20px;
-        background-size: 20px 20px;
         margin-right: 0;
         position: relative;
         z-index: 2;
     }
 
+    /* .da-membersWrap div[class*='members-'] .da-avatarWrapper .da-wrapper, */
+    .da-membersWrap div[class*='members-'] .da-avatarWrapper div[class^='image-'] {
+        width: 20px;
+        height: 20px;
+    }
+
     /* Online status indicator */
-    div[class^='membersWrap-'] div[class*='members-'] div[class^='avatar-'] .status {
-        top: 65%;
-        right: -4px;
+    .da-membersWrap div[class*='members-'] .da-avatarWrapper div[class*='status-'] {
+        top: 45%;
+        right: 5px;
         border: 2px solid #1c1e22;
         z-index: 3;
     }
 
-    /* Offline user */
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'].memberOffline div[class^='memberInner-'] {
-        padding: 0 0 0 5px;
-    }
+    .da-membersWrap div[class*='members-'] .da-member.memberOffline::before,
+    .da-membersWrap div[class*='members-'] .da-member.memberOffline::after { display: none !important; }
 
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'].memberOffline::before,
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'].memberOffline::after { display: none !important; }
-
-    div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'].memberOffline div[class^='avatar-'] {
+    .da-membersWrap div[class*='members-'] .da-member.memberOffline .da-avatarWrapper {
         height: 0;
         width: 0;
         background-size: 0 0;
@@ -1098,7 +1103,7 @@
 
     .private-channels .channel { padding-left: 10px; padding-right: 6px; }
     .private-channels .channel a { padding-left: 0; margin: 1px 0; !important }
-    .private-channels .channel a div[class^='avatar-'] {
+    .private-channels .channel a .da-avatarWrapper {
         width: 25px;
         height: 25px;
         background-size: 25px;
@@ -1173,7 +1178,7 @@
         left: 0;
     }
 
-    .bd-minimal .guilds .friends-icon, .bd-minimal .guilds .guild, .bd-minimal .guilds .guild div[class^='avatar-'], .bd-minimal .guilds .guild .guild-inner, .bd-minimal .guilds .guild .guild-inner a {
+    .bd-minimal .guilds .friends-icon, .bd-minimal .guilds .guild, .bd-minimal .guilds .guild .da-avatarWrapper,.bd-minimal .guilds .guild .guild-inner, .bd-minimal .guilds .guild .guild-inner a {
         width: 20px !important;
         height: 20px !important;
         background-size: 100% !important;
@@ -1202,17 +1207,17 @@
 
     .bd-minimal .theme-dark .comment { border-left: none; }
 
-    .bd-minimal div[class^='membersWrap-'] { width: 80px; }
-    .bd-minimal div[class^='membersWrap-'] div[class*='members-'] { width: 80px; }
-    .bd-minimal div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] { padding: 0; }
-    .bd-minimal div[class^='membersWrap-'] div[class*='members-'] div[class*='memberO'] div[class^='memberInner-'] { padding: 1px 8px; }
+    .bd-minimal .da-membersWrap { width: 80px; }
+    .bd-minimal .da-membersWrap div[class*='members-'] { width: 80px; }
+    .bd-minimal .da-membersWrap div[class*='members-'] div[class^='memberO'] { padding: 0; }
+    .bd-minimal .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-memberInner { padding: 1px 8px; }
 
     /* User list online status indicator */
-    .bd-minimal div[class^='membersWrap-'] div[class*='members-'] div[class^='avatar-'] .status { top: 11px !important; }
+    .bd-minimal .da-membersWrap div[class*='members-'] .da-avatarWrapper .status { top: 11px !important; }
 
     .bd-minimal .account .username { display: block; }
 
-    .bd-minimal div[class^='membersWrap-'] div[class*='members-'] div[class^='avatar-'] .status-typing {	width: 17px !important;	}
+    .bd-minimal .da-membersWrap div[class*='members-'] .da-avatarWrapper .status-typing {	width: 17px !important;	}
 
 
 
