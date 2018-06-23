@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.0"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.1"}*//
 
 /*
     Changelog
@@ -34,6 +34,7 @@
     v1.7.13 (June 16th 2018) Fix DM notification icon, fix Spotify "listening along" area (or hide most of it)
     v1.7.14 (June 21th 2018) Member list selector fixes
     v1.8.0 (June 23rd 2018) Added activity feed support, friends tab DM list fixes
+    v1.8.1 (June 23rd 2018) Embed fixes, fixes related to the bottom left section (user avatar, currently connected voice info, etcetc.)
  */
 
 
@@ -46,22 +47,22 @@
     /* General */
     a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var, .modal *, .chat .new-messages-bar button:first-child {
         font-size: 15px !important;
-        /** Fixes random flickering effect */
+        /* Fixes random flickering effect */
         backface-visibility: hidden !important;
     }
 
     /* Message timestamp */
-    .message-group.compact .markup span.timestamp,
+    .message-group.compact .markup:not([class*='embed']) span.timestamp,
     .message-group h2 span.timestamp {
         font-size: 0.8rem !important;
     }
-    .message-group.compact .markup span.timestamp {
+    .message-group.compact .markup:not([class*='embed']) span.timestamp {
         position: relative;
         top: -3px;
     }
     /* Message (sender, content) */
-    .message-text .markup span,
-    .message-text .markup .user-name { font-size: 15px !important; }
+    .message-text .markup:not([class*='embed']) span,
+    .message-text .markup:not([class*='embed']) .user-name { font-size: 15px !important; }
 
     .app > .flex-spacer,
     #friends .friends-table .friends-table-body { background: rgb(17,17,17) !important; }
@@ -81,11 +82,12 @@
     .divider,
     .divider-red span,
     .messages-wrapper,
-    #rtc-connection,
+    .rtc-connection-status,
     .channel-textarea textarea,
     .friends-table,
     .private-channels .channel.selected,
     .da-activityFeed,
+    .messages-wrapper .messages .da-embedInner,
     .guilds-add {
         background: transparent !important;
         background-color: transparent !important;
@@ -93,7 +95,7 @@
 
     .account,
     .account .btn,
-    #rtc-connection .btn,
+    .rtc-connection-status .btn,
     .help-container,
     .messages-wrapper .messages .divider span {
         background: transparent !important;
@@ -472,13 +474,13 @@
     }
 
     .rtc-connection-status {
-        font-size: 0.9em !important;
         white-space: nowrap;
-        margin-left: -5px;
     }
-    .rtc-connection-channel {
-        margin-right: 0;
-        margin-top: 6px;
+    .rtc-connection-status .ping {
+        flex-shrink: 0;
+    }
+    .rtc-connection-status .da-channel {
+        font-size: 12px !important;
     }
 
     .da-channels > div[class^='container']:nth-child(2):not(:last-child) {
@@ -552,14 +554,21 @@
         padding-left: 2px;
     }
 
-    .da-channels > div:last-of-type .btn, #rtc-connection .btn {
+    .da-channels > div:last-of-type .btn, .rtc-connection-status .btn {
         box-shadow: none !important;
         border-right: 0 !important;
     }
 
-    .da-channels .da-accountDetails .discriminator { opacity: 0.5; }
-    .da-channels .da-accountDetails .discriminator:hover { opacity: 1; }
-    .da-channels .da-accountDetails .discriminator span:first-of-type { color: #738bd7; }
+    .da-channels .da-accountDetails .username {
+        font-size: 14px !important;
+    }
+    .da-channels .da-accountDetails .discriminator {
+        font-size: 12px !important;
+        opacity: 0.5;
+    }
+    .da-channels .da-accountDetails .discriminator:hover {
+        opacity: 1;
+    }
 
     .links { padding: 75px 10px 20px; }
     
@@ -661,7 +670,10 @@
     .message-group .comment { margin-right: 5px; }
     .message-group .message { position: relative; }
     .message-group.compact { margin-left: 5px; }
-    .message-group.compact .comment .markup { padding-left: 75px; text-indent: -75px; }
+    .message-group.compact .comment .markup:not([class*='embed']) {
+        padding-left: 75px;
+        text-indent: -75px;
+    }
     .message-group span[class^='botTag'] {
         font-size: 0.8rem !important;
     }
@@ -670,23 +682,23 @@
         line-height: 20px;
         font-size: 0 !important;
     }
-    .message-group .comment .markup {
+    .message-group .comment .markup:not([class*='embed']) {
         min-height: 25px;
         line-height: 25px;
         color: rgba(255, 255, 255, 0.7);
         margin-top: 0;
     }
-    .message-group.compact .comment .markup { margin-bottom: 0; }
-    .message-group .embed,
+    .message-group.compact .comment .markup:not([class*='embed']) { margin-bottom: 0; }
+    .message-group .da-embed,
     .message-group .game-invite-embed { background: rgb(22,22,22); border: none !important; }
-    .message-group .embed-field .markup { margin-top: 0; }
+    .message-group .da-embedField .markup { margin-top: 0; }
 
     .message-group .game-invite-embed {
         height: auto;
         padding: 10px;
     }
     
-    .message-group .message .markup a { white-space: pre; }
+    .message-group .message .markup:not([class*='embed']) a { white-space: pre; }
     .message-group .mentioned .message-text { background: rgb(27,27,27) !important; }
 
     .message-group .avatar-large {
@@ -697,7 +709,7 @@
         background-size: 30px 30px;
     }
 
-    .message-group.compact .accessory { padding-left: 92px; }
+    .message-group.compact .accessory { padding-left: 70px; }
     .popout .message-group.compact .accessory {
         padding-left: 10px;
         margin-left: 0;
@@ -732,7 +744,7 @@
     }
 
     /* Emoji */
-    .emoji {
+    .markup:not([class*='embed']) .emoji {
         height: 25px !important;
         width: 25px !important;
         line-height: 25px !important;
@@ -762,7 +774,7 @@
     .messages-wrapper .messages .divider div { background: rgb(47,47,47) !important; }
     .messages-wrapper .messages .divider.divider-red>div { background: #f04747 !important; }
     .friends-table .messages .divider:before, .friends-table .messages .divider span, .messages-wrapper .messages .divider:before, .messages-wrapper .messages .divider span { background-color: transparent !important; }
-    .message-group .comment .markup pre {
+    .message-group .comment .markup:not([class*='embed']) pre {
         background: rgb(27,27,27) !important;
         border-color: rgb(27,27,27) !important;
         display: inline-block;
@@ -770,8 +782,12 @@
         position: relative !important;
         bottom: -9px !important;
     }
-    .message-group .markup pre code { background: transparent !important; }
-    .messages-wrapper .messages .embed { border-color: rgb(47,47,47) !important; }
+    .message-group .markup:not([class*='embed']) pre code {
+        background: transparent !important;
+    }
+    .messages-wrapper .messages .da-embed {
+        border-color: rgb(47,47,47) !important;
+    }
 
     /* Messages from blocked people */
     .friends-table .messages .message-group-blocked,
@@ -835,40 +851,46 @@
     .message-group.compact .timestamp:hover { color: #99aab5 !important; }
 
     /* Embedded previews etc */
-    .message-group.compact .embed { padding: 0; }
-    .message-group.compact .embed .embed-author,
-    .message-group.compact .embed .embed-title,
-    .message-group.compact .embed .embed-provider,
-    .message-group.compact .embed .embed-field-name {
+    .message-group.compact .da-embed { padding: 0; }
+    .message-group.compact .da-embed .da-embedAuthor,
+    .message-group.compact .da-embed .da-embedTitle,
+    .message-group.compact .da-embed .da-embedProvider,
+    .message-group.compact .da-embed .da-embedFieldName {
         margin-bottom: 0 !important;
     }
 
-    .embed {
+    .da-embed {
         padding: 12px 10px 8px;
         background-color: rgb(22,22,22) !important;
     }
-    .message-group .embed-wrapper .embed-color-pill { background-color: rgb(87,87,87); }
-    .embed .embed-provider,
-    .embed .embed-author,
-    .embed .embed-title,
-    .embed .embed-field-name,
-    .embed .embed-field-value {
-        font-size: inherit !important;
+    .message-group .da-embed-wrapper .da-embedPill { background-color: rgb(87,87,87); }
+    .da-embed .da-embedProvider,
+    .da-embed .da-embedAuthor,
+    .da-embed .da-embedTitle,
+    .da-embed .da-embedFieldName,
+    .da-embed .da-embedFieldValue,
+    .da-embed .da-embedDescription {
+        font-size: 13px !important;
     }
-    .embed .embed-description.markup {
-        font-size: inherit !important;
+    .da-embed .da-embedDescription {
         padding-left: 0 !important;
         text-indent: 0 !important;
     }
 
-    .embed .embed-description.markup a { display: block !important; }
-    .embed .embed-description { color: hsla(0,0%,100%,.6); }
+    .da-embed .da-embedDescription a { display: block !important; }
+    .da-embed .da-embedDescription { color: hsla(0,0%,100%,.6); }
 
-    .embed .image { margin: auto !important; }
-    .embed .embed-content { margin-bottom: 10px; }
-    .embed .embed-fields .embed-field .embed-field-name { margin-bottom: -5px; }
-    .embed .embed-fields .embed-field { padding-top: 0; }
-    .embed .embed-thumbnail { margin-top: 5px; }
+    .da-embed .image { margin: auto !important; }
+    .da-embed .da-embedContent { margin-bottom: 10px; }
+    .da-embed .da-embedFields .da-embedField .da-embedFieldName { margin-bottom: -5px; }
+    .da-embed .da-embedFields .da-embedField { padding-top: 0; }
+    .da-embed .da-embedThumbnail { margin-top: 5px; }
+
+    .da-embed .emoji {
+        min-height: 18px;
+        min-width: 18px;
+        margin: 1px .05em 1px .1em !important;
+    }
 
     .invite-button {
         background-color: rgb(27,27,27) !important;
@@ -1138,9 +1160,9 @@
         color: #f9f9f9;
     }
 
-    .friends-table .messages .message-group .comment .markup code.inline,
-    .friends-table .messages .message-group .comment .markup pre code,
-    .messages-wrapper .messages .message-group .comment .markup code.inline {
+    .friends-table .messages .message-group .comment .markup:not([class*='embed']) code.inline,
+    .friends-table .messages .message-group .comment .markup:not([class*='embed']) pre code,
+    .messages-wrapper .messages .message-group .comment .markup:not([class*='embed']) code.inline {
         background: rgb(27,27,27) !important;
     }
 
