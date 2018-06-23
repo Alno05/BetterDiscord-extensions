@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.7.14"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.0"}*//
 
 /*
     Changelog
@@ -33,6 +33,7 @@
     v1.7.12 (June 16th 2018) Fix guild icons
     v1.7.13 (June 16th 2018) Fix DM notification icon, fix Spotify "listening along" area (or hide most of it)
     v1.7.14 (June 21th 2018) Member list selector fixes
+    v1.8.0 (June 23rd 2018) Added activity feed support, friends tab DM list fixes
  */
 
 
@@ -44,7 +45,7 @@
 
     /* General */
     a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var, .modal *, .chat .new-messages-bar button:first-child {
-        font-size: 16px !important;
+        font-size: 15px !important;
         /** Fixes random flickering effect */
         backface-visibility: hidden !important;
     }
@@ -60,7 +61,7 @@
     }
     /* Message (sender, content) */
     .message-text .markup span,
-    .message-text .markup .user-name { font-size: 16px !important; }
+    .message-text .markup .user-name { font-size: 15px !important; }
 
     .app > .flex-spacer,
     #friends .friends-table .friends-table-body { background: rgb(17,17,17) !important; }
@@ -75,7 +76,7 @@
     div[class^='typing'],
     .content,
     div[class^='content'],
-    div[class^='channels-'],
+    .da-channels,
     .private-channels,
     .divider,
     .divider-red span,
@@ -84,6 +85,7 @@
     .channel-textarea textarea,
     .friends-table,
     .private-channels .channel.selected,
+    .da-activityFeed,
     .guilds-add {
         background: transparent !important;
         background-color: transparent !important;
@@ -110,7 +112,7 @@
     }
 
     /* Text / voice channels, friends tab content area */
-    div[class^='channels-'] > div:first-of-type,
+    .da-channels > div:first-of-type,
     #friends {
         background: rgb(22,22,22) !important;
     }
@@ -130,8 +132,8 @@
 
     /* Channel, user etc. hover effect */
     .private-channels .channel:hover,
-    div[class^='channels-'] .channel-text:hover,
-    div[class^='channels-'] .channel-voice .channel-arrow:hover,
+    .da-channels .channel-text:hover,
+    .da-channels .channel-voice .channel-arrow:hover,
     #friends .friends-table .friends-row:hover {
         background: rgba(255,255,255,0.02) !important;
     }
@@ -330,14 +332,14 @@
 
 /************************* Text/voice channel section *************************/
 
-    div[class^='channels-'] {
+    .da-channels {
         width: 130px !important;
         /*border-right: 1px solid #1c1e22;*/
         transition: width 150ms;
         position: relative;
     }
 
-    div[class^='channels-'] .ui-scroller-wrap { width: 143px !important; }
+    .da-channels .ui-scroller-wrap { width: 143px !important; }
 
     .private-channels .search-bar {
         padding: 15px;
@@ -346,7 +348,7 @@
         box-sizing: border-box;
     }
 
-    div[class^='channels-'] > div:first-of-type > div:first-of-type header,
+    .da-channels > div:first-of-type > div:first-of-type header,
     .private-channels .search-bar {
         height: 48px;
         background: rgb(27,27,27) !important;
@@ -373,16 +375,16 @@
         line-height: 100%;
     }
 
-    div[class^='channels-'] div[class^='scroller-'] {
+    .da-channels div[class^='scroller-'] {
         overflow-x: hidden !important;
         margin-right: -7px;
     }
-    div[class^='channels-'] div[class^='scroller-'] > div[class^='wrapperDefault'] {
+    .da-channels div[class^='scroller-'] > div[class^='wrapperDefault'] {
         height: 35px;
         padding-top: 16px;
         padding-left: 13px;
     }
-    div[class^='channels-'] div[class^='scroller-'] > div[class^='wrapperDefault'] svg {
+    .da-channels div[class^='scroller-'] > div[class^='wrapperDefault'] svg {
         width: 12px;
         height: 12px;
         left: 3px;
@@ -391,57 +393,57 @@
     }
 
     /* TEXT-CHANNELS, VOICE-CHANNELS labels */
-    div[class^='channels-'] > div[class^='wrapperDefault'] {
+    .da-channels > div[class^='wrapperDefault'] {
         height: 45px;
         padding-top: 23px;
         padding-left: 14px;
     }
 
-    div[class^='channels-'] > div[class^='wrapperDefault'] div[class^='nameDefault'] {
+    .da-channels > div[class^='wrapperDefault'] div[class^='nameDefault'] {
         line-height: 19px;
     }
 
-    div[class^='channels-'] div[class^='content'] {
+    .da-channels div[class^='content'] {
         margin: 0;
         padding: 0 5px;
     }
-    div[class^='channels-'] div[class^='contentSelectedText'] {
+    .da-channels div[class^='contentSelectedText'] {
         background: rgb(27,27,27);
     }
-    div[class^='channels-'] div[class^='contentHoveredText'] {
+    .da-channels div[class^='contentHoveredText'] {
         background: rgb(32,32,32);
     }
-    div[class^='channels-'] div[class^='containerDefault'] > div:nth-child(2) {
+    .da-channels div[class^='containerDefault'] > div:nth-child(2) {
         padding-left: 5px;
     }
 
-    div[class^='channels-'] div[class^='content'] .margin-reset { color: #738bd7 !important; }
-    div[class^='channels-'] .channel-text .badge {
+    .da-channels div[class^='content'] .margin-reset { color: #738bd7 !important; }
+    .da-channels .channel-text .badge {
         margin-left: -15px;
         position: absolute;
         right: 22px;
     }
 
-    div[class^='channels-'] .channel-text a {
+    .da-channels .channel-text a {
         padding: 6px;
         box-sizing: border-box;
     }
-    div[class^='channels-'] header {
+    .da-channels header {
         padding: 0 5px;
         margin: 0;
         text-align: center;
     }
-    div[class^='channels-'] header:nth-of-type(2) {
+    .da-channels header:nth-of-type(2) {
         margin: 15px 0 0;
     }
-    div[class^='channels-'] header span {
+    .da-channels header span {
         white-space: nowrap;
     }
-    div[class^='channels-'] .private-channels header {
+    .da-channels .private-channels header {
         margin: 10px 0;
     }
 
-    div[class^='channels-'] div[class^='wrapperUnreadText']::before {
+    .da-channels div[class^='wrapperUnreadText']::before {
         content: "\01F4AC";
         background: none;
         width: 0;
@@ -458,7 +460,7 @@
         animation-timing-function: ease-in-out;
     }
 
-    div[class^='channels-'] div[class^='unread-'] {
+    .da-channels div[class^='unread-'] {
         display: none;
     }
 
@@ -479,11 +481,11 @@
         margin-top: 6px;
     }
 
-    div[class^='channels-'] > div[class^='container']:nth-child(2):not(:last-child) {
+    .da-channels > div[class^='container']:nth-child(2):not(:last-child) {
         position: relative;
         overflow: hidden;
     }
-    div[class^='channels-'] > div[class^='container']:nth-child(2):not(:last-child) > div:nth-child(2) {
+    .da-channels > div[class^='container']:nth-child(2):not(:last-child) > div:nth-child(2) {
         background: rgb(27,27,27);
         position: absolute;
         padding: 10px 7px 9px 5px;
@@ -494,8 +496,8 @@
         bottom: initial;
         top: 0;
     }
-    div[class^='channels-'] > div[class^='container']:nth-child(2):not(:last-child):hover div:nth-child(2),
-    div[class^='channels-'] > div[class^='container']:nth-child(2):not(:last-child) div:nth-child(2):hover {
+    .da-channels > div[class^='container']:nth-child(2):not(:last-child):hover div:nth-child(2),
+    .da-channels > div[class^='container']:nth-child(2):not(:last-child) div:nth-child(2):hover {
         right: 0;
     }
     .btn {
@@ -506,7 +508,7 @@
         margin-right: 0;
     }
 
-    div[class^='channels-'] > div[class^='container'] {
+    .da-channels > div[class^='container'] {
         background: rgb(27,27,27) !important;
         border-bottom: none;
     }
@@ -527,15 +529,18 @@
     }
 
     /* Aka the previous account info/settings container at the bottom of channel list */
-    div[class^='channels-'] > div:last-of-type {
+    .da-channels > div:last-of-type {
         height: 68px !important;
         padding: 0 2px 12px !important;
         align-items: flex-end !important;
         border-top: none;
         margin-bottom: 0;
     }
-    div[class^='channels-'] > div:last-of-type .da-avatarWrapper { margin-left: 5px; display: block !important; }
-    div[class^='channels-'] > div:last-of-type > div:last-of-type {
+    .da-channels > div:last-of-type div[class^='avatar'] {
+        margin-left: 5px;
+        display: block !important;
+    }
+    .da-channels > div:last-of-type > div:last-of-type {
         position: absolute;
         left: 0;
         bottom: 46px;
@@ -547,14 +552,14 @@
         padding-left: 2px;
     }
 
-    div[class^='channels-'] > div:last-of-type .btn, #rtc-connection .btn {
+    .da-channels > div:last-of-type .btn, #rtc-connection .btn {
         box-shadow: none !important;
         border-right: 0 !important;
     }
 
-    div[class^='channels-'] > div:last-of-type > div:nth-of-type(2) .discriminator { opacity: 0.5; }
-    div[class^='channels-'] > div:last-of-type > div:nth-of-type(2) .discriminator:hover { opacity: 1; }
-    div[class^='channels-'] > div:last-of-type > div:nth-of-type(2) .discriminator span:first-of-type { color: #738bd7; }
+    .da-channels .da-accountDetails .discriminator { opacity: 0.5; }
+    .da-channels .da-accountDetails .discriminator:hover { opacity: 1; }
+    .da-channels .da-accountDetails .discriminator span:first-of-type { color: #738bd7; }
 
     .links { padding: 75px 10px 20px; }
     
@@ -622,7 +627,7 @@
 
     /* Input box */
     .chat form > div:first-child { margin: 10px 0 26px; }
-    .chat form > div:first-child textarea { font-size: 16px !important; }
+    .chat form > div:first-child textarea { font-size: 15px !important; }
     .chat form > div:first-child > div:first-child { background-color: rgb(27,27,27); }
     .chat form div[class^='typing'] { padding-left: 20px; }
 
@@ -1101,9 +1106,20 @@
         padding-left: 20px !important;
     }
 
-    .private-channels .channel { padding-left: 10px; padding-right: 6px; }
-    .private-channels .channel a { padding-left: 0; margin: 1px 0; !important }
-    .private-channels .channel a .da-avatarWrapper {
+    .private-channels .channel {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+    .private-channels .channel a {
+        padding: 6px;
+        margin: 1px 0 !important;
+    }
+    .private-channels .channel.selected a,
+    .private-channels .channel:hover a {
+        background-color: rgb(42,47,47);
+    }
+    .private-channels .channel a .da-wrapper,
+    .private-channels .channel a div[class^='avatar'] {
         width: 25px;
         height: 25px;
         background-size: 25px;
@@ -1112,9 +1128,10 @@
     }
     .private-channels .channel a .channel-game > span,
     .private-channels .channel a .channel-game > span { display: none !important; }
-    .private-channels .channel a .channel-name { max-height: 25px; transition: all 150ms; }
+    .private-channels .channel a .channel-name { max-height: 25px; transition: all 150ms; font-size: 14px !important; }
     .private-channels .channel a:hover .channel-name { max-height: 150px !important; }
     .private-channels .channel a .channel-game strong span { font-size: 9px !important; }
+    .private-channels .channel a .channel-activity { font-size: 13px !important; }
 
     .friends-table .messages .message-group.compact .user-name,
     .messages-wrapper .messages .message-group.compact .user-name {
@@ -1142,6 +1159,129 @@
         border-bottom: 2px solid rgb(22,22,22);
     }
 
+/********************************* Activity feed *********************************/
+
+    .da-activityFeed {
+        background: rgb(17,17,17) !important;
+    }
+
+    .da-activityFeed .da-dock .da-smallCarousel,
+    .da-activityFeed .da-dock .da-smallCarousel .da-article {
+        height: 180px;
+    }
+
+    .da-activityFeed .da-dock .da-dockItem {
+        height: 90px;
+        width: 80px;
+    }
+    .da-activityFeed .da-dock .da-dockItem:hover {
+        background-color: rgb(32,32,32);
+    }
+
+    .da-activityFeed .da-dock .da-dockItemText {
+        font-size: 13px !important;
+    }
+
+    .da-activityFeed .da-dock .da-dockIcon {
+        width: 30px;
+        height: 30px;
+    }
+    .da-activityFeed .da-dock .da-dockItemPlay {
+        height: 26px;
+        min-height: 26px;
+        min-width: 50px;
+    }
+    .da-activityFeed .da-dock .da-dockItemPlay .da-contents {
+        font-size: 14px !important;
+    }
+
+    .da-activityFeed div[class*='cardHeader'] {
+        padding: 10px;
+        background-color: rgb(22,22,22) !important;
+    }
+
+    .da-activityFeed .da-gameIcon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .da-activityFeed .da-cardBody {
+        background-color: rgb(27,27,27) !important;
+        padding: 0;
+    }
+
+    /* "Now playing" cards */
+    .da-activityFeed .da-game {
+        padding: 10px;
+    }
+
+    /* "What's new" cards (identified by the .da-card element not having a marginTop20 class */
+    .da-activityFeed .da-card:not([class*='marginTop']) .da-cardBody,
+    .da-activityFeed .da-card:not([class*='marginTop']) .da-game {
+        padding: 10px 10px 0;
+    }
+
+    .da-activityFeed .da-card:not([class*='marginTop']) .da-game {
+        padding: 10px 10px 0;
+        background-color: rgb(27,27,27) !important;
+    }
+
+    .da-activityFeed div[class*='card'] .da-player {
+        padding-bottom: 10px;
+        border-bottom-color: rgb(37,37,37);
+    }
+
+    .da-activityFeed .da-avatar,
+    .da-activityFeed .da-image {
+        height: 30px;
+        width: 30px;
+    }
+
+    .da-activityFeed div[class*='card'] .da-username,
+    .da-activityFeed div[class*='card'] .da-discriminator,
+    .da-activityFeed .da-gameName {
+        font-size: 14px !important;
+    }
+
+    .da-activityFeed div[class*='card'] .da-playTime {
+        font-size: 13px !important;
+    }
+
+    .da-activityFeed div[class*='card'] button.da-lookFilled {
+        padding: 2px 10px;
+        height: 26px;
+        min-height: 26px;
+        min-width: 60px;
+    }
+    .da-activityFeed div[class*='card'] button.da-lookFilled .da-contents {
+        font-size: 14px !important;
+    }
+
+    .da-activityFeed div[class*='card'] .da-player + .da.player {
+        padding-top: 10px;
+    }
+
+    .da-activityFeed div[class*='card'] .da-playerBottomPadding {
+        padding-bottom: 10px;
+    }
+
+    .da-activityFeed div[class*='card'] .da-playerBottomPadding .da-sectionTitle {
+        font-size: 13px !important;
+        padding: 10px 0 0;
+    }
+
+    .da-activityFeed div[class*='card'] .da-playerBottomPadding .da-sectionLine {
+        background-color: rgb(42,42,42);
+    }
+
+    .da-activityFeed div[class*='card'] .da-overflownPlayers {
+        margin-top: 10px;
+    }
+
+    .da-activityFeed div[class*='card'] .da-news .da-body div {
+        font-size: 14px !important;
+    }
+
 
 /********************************* Settings *********************************/
 
@@ -1155,7 +1295,7 @@
     /* Header */
     .markdown-modal .markdown-modal-header {
         margin: 0;
-        padding: 16px;
+        padding: 15px;
     }
 
     /* Close btn */
