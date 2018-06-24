@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.1"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.2"}*//
 
 /*
     Changelog
@@ -35,6 +35,7 @@
     v1.7.14 (June 21th 2018) Member list selector fixes
     v1.8.0 (June 23rd 2018) Added activity feed support, friends tab DM list fixes
     v1.8.1 (June 23rd 2018) Embed fixes, fixes related to the bottom left section (user avatar, currently connected voice info, etcetc.)
+    v1.8.2 (June 24th 2018) Minor embed adjustments
  */
 
 
@@ -869,15 +870,16 @@
     .da-embed .da-embedTitle,
     .da-embed .da-embedFieldName,
     .da-embed .da-embedFieldValue,
-    .da-embed .da-embedDescription {
+    .da-embed .da-embedDescription,
+    .da-embed a,
+    .da-embed strong,
+    .da-embed code {
         font-size: 13px !important;
     }
     .da-embed .da-embedDescription {
         padding-left: 0 !important;
         text-indent: 0 !important;
     }
-
-    .da-embed .da-embedDescription a { display: block !important; }
     .da-embed .da-embedDescription { color: hsla(0,0%,100%,.6); }
 
     .da-embed .image { margin: auto !important; }
