@@ -299,9 +299,9 @@ class ToggleSections {
                 type: 'text',
                 "data-ts-i": i,
                 id: 'ts-'+ container.className,
-                value: String.fromCharCode(container.keyCode),
+                value: 'CTRL+Shift+'+String.fromCharCode(container.keyCode),
                 keyup({ keyCode }) {
-                    $(this).val(String.fromCharCode(keyCode));
+                    $(this).val('CTRL+Shift+'+String.fromCharCode(keyCode));
                     settings.keyCode[container.index] = keyCode;
                     setupHotkeys();
                     updateSettings();
