@@ -168,14 +168,14 @@ class ToggleSections {
         if(!bdPluginStorage.get("ToggleSections", "settings"))
             bdPluginStorage.set("ToggleSections", "settings", JSON.stringify(defaultSettings));
 
-        this.settings = JSON.parse(bdPluginStorage.get("ToggleSections", "settings"));
-    
+        this.settings = Object.assign({}, defaultSettings, JSON.parse(bdPluginStorage.get("ToggleSections", "settings")));
+
         // There's no fixed .channels-wrap element to target anymore, so need to look for the element
-        const channelsClassName = $('*[class^="channels-"]').attr("class").split(" ").find(cn => cn.startsWith("channels-"))
+        const channelsClassName = $("*[class^=\"channels-\"]").attr("class").split(" ").find(cn => cn.startsWith("channels-"))
 
         this.containers = [
-            new TSContainer(this, 0, { label: 'Guild list', className: 'guilds-wrapper', position: 'right' }),
-            new TSContainer(this, 1, { label: 'Channel list', className: channelsClassName, position: 'right' }),
+            new TSContainer(this, 0, { label: "Guild list", className: "guilds-wrapper", position: "right" }),
+            new TSContainer(this, 1, { label: "Channel list", className: channelsClassName, position: "right" }),
         ];
 
         onSwitch();
@@ -189,7 +189,7 @@ class ToggleSections {
     }
 
     observer(e) {
-        if(e.target.classList.contains('toggleable'))
+        if(e.target.classList.contains("toggleable"))
             this.onSwitch();
     }
 
@@ -204,50 +204,50 @@ class ToggleSections {
         if($("#toggle-sections").length) $("#toggle-sections").html("");
 
         let css = [
-            '.channel-members-wrap { min-width: 0; }',
+            ".channel-members-wrap { min-width: 0; }",
 
-            '.toggleable.closed { overflow: visible !important; width: 0 !important; }',
-            '.toggleable.closed > *:not(.toggle-section) { opacity: 0 !important; }',
+            ".toggleable.closed { overflow: visible !important; width: 0 !important; }",
+            ".toggleable.closed > *:not(.toggle-section) { opacity: 0 !important; }",
 
-            '.toggle-section {',
-                settings.hideButtons ? 'display: none;' : '',
-                'position: absolute;',
-                'bottom: 0;',
-                'z-index: 6;',
-                'cursor: pointer;',
-                'opacity: .4 !important;',
-                'border-width: 10px 0;',
-                'border-style: solid;',
-                'border-color: transparent '+settings.color,
-            '}',
+            ".toggle-section {",
+                settings.hideButtons ? "display: none;" : "",
+                "position: absolute;",
+                "bottom: 0;",
+                "z-index: 6;",
+                "cursor: pointer;",
+                "opacity: .4 !important;",
+                "border-width: 10px 0;",
+                "border-style: solid;",
+                `border-color: transparent ${settings.color}`,
+            "}",
 
-            '.toggle-section:hover { opacity: 1 !important; }',
+            ".toggle-section:hover { opacity: 1 !important; }",
 
-            '.toggle-section.right { right: 0; border-right-width: 10px; z-index: 999; }',
+            ".toggle-section.right { right: 0; border-right-width: 10px; z-index: 999; }",
 
-            '.toggleable.closed .toggle-section.right {',
-                'right: -10px;',
-                'border-left-width: 10px;',
-                'border-right-width: 0;',
-            '}',
+            ".toggleable.closed .toggle-section.right {",
+                "right: -10px;",
+                "border-left-width: 10px;",
+                "border-right-width: 0;",
+            "}",
 
-            '.toggle-section.left { left: 0; border-left-width: 10px }',
+            ".toggle-section.left { left: 0; border-left-width: 10px }",
 
-            '.toggleable.closed .toggle-section.left {',
-                'left: -10px;',
-                'border-right-width: 10px;',
-                'border-left-width: 0;',
-            '}',
+            ".toggleable.closed .toggle-section.left {",
+                "left: -10px;",
+                "border-right-width: 10px;",
+                "border-left-width: 0;",
+            "}",
 
-            '.channel-members-wrap.closed .toggle-section { left: -30px; }'
+            ".channel-members-wrap.closed .toggle-section { left: -30px; }"
         ];
 
         // Ensure that the containers are positioned relatively
         containers.forEach(container => {
-            css.push('.'+container.className+'{ position: relative; transition: width 150ms; }');
+            css.push(`.${container.className}{ position: relative; transition: width 150ms; }`);
         });
 
-        css = css.join(' ');
+        css = css.join(" ");
 
         if ($("#toggle-sections").length > 0)
             $("#toggle-sections").remove();
@@ -257,11 +257,12 @@ class ToggleSections {
 
     setupHotkeys() {
         const { containers, settings } = this
+        $(document).off("keydown.ts");
         $(document).on("keydown.ts", ({ ctrlKey, shiftKey, keyCode }) => {
             if(!ctrlKey || !shiftKey) return;
 
             containers.forEach(container => {
-                if(container.keyCode == keyCode)
+                if(container.isEnabled && container.keyCode == keyCode)
                     container.toggle();
             });
         });
@@ -270,38 +271,38 @@ class ToggleSections {
     getSettingsPanel() {
         const { containers, settings, addStyling, updateSettings, onSwitch, setupHotkeys } = this;
 
-        const settingsContainer = $('<div/>', { id: "ts-settings" });
-        
-        const containersTable = $('<table />');
-        
+        const settingsContainer = $("<div/>", { id: "ts-settings" });
+
+        const containersTable = $("<table />");
+
         containersTable.append("<tr><th>Name</th><th>Enabled</th><th>Keybind</th></tr>");
-        
+
         containers.forEach((container, i) => {
-            const tableRow = $('<tr />');
-            
-            tableRow.append($('<td />').append($('<span />', {
+            const tableRow = $("<tr />");
+
+            tableRow.append($("<td />").append($("<span />", {
                 text: container.label
             })));
-            
-            tableRow.append($('<td />').append($('<input />', {
-                type: 'checkbox',
+
+            tableRow.append($("<td />").append($("<input />", {
+                type: "checkbox",
                 "data-ts-i": i,
-                id: 'ts-'+ container.className,
                 checked: container.isEnabled,
+                id: `ts-${container.className}`,
                 click() {
-                    settings.enabled[container.index] = $(this).val();
+                    settings.enabled[container.index] = !settings.enabled[container.index];
                     updateSettings();
                     onSwitch();
                 }
             })));
 
-            tableRow.append($('<td />').append($('<input />', {
-                type: 'text',
+            tableRow.append($("<td />").append($("<input />", {
+                type: "text",
                 "data-ts-i": i,
-                id: 'ts-'+ container.className,
-                value: 'CTRL+Shift+'+String.fromCharCode(container.keyCode),
+                id: `ts-${container.className}`,
+                value: `CTRL+Shift+${String.fromCharCode(container.keyCode)}`,
                 keyup({ keyCode }) {
-                    $(this).val('CTRL+Shift+'+String.fromCharCode(keyCode));
+                    this.value = `CTRL+Shift+${String.fromCharCode(keyCode)}`;
                     settings.keyCode[container.index] = keyCode;
                     setupHotkeys();
                     updateSettings();
@@ -310,8 +311,8 @@ class ToggleSections {
 
             containersTable.append(tableRow);
         });
-        
-        settingsContainer.append(containersTable, '<br/>');
+
+        settingsContainer.append(containersTable, "<br/>");
 
         const colorPicker = $("<input/>", {
             type: "color",
@@ -319,25 +320,25 @@ class ToggleSections {
             id: "color-picker",
             value: settings.color,
             change() {
-                settings.color = $(this).prop("value");
+                settings.color = this.value;
                 addStyling();
                 updateSettings();
             }
         });
 
-        settingsContainer.append('<span>Button Color</span>', colorPicker, '<br/>');
+        settingsContainer.append("<span>Button Color</span>", colorPicker, "<br/>");
 
         const hideButtonsCheckbox = $("<input/>", {
             type: "checkbox",
             checked: settings.hideButtons,
-            change() {
-                settings.hideButtons = $(this).val();
+            click() {
+                settings.hideButtons = !settings.hideButtons;
                 addStyling();
                 updateSettings();
             }
         });
 
-        settingsContainer.append('<span>Hide Buttons</span>', hideButtonsCheckbox);
+        settingsContainer.append("<span>Hide Buttons</span>", hideButtonsCheckbox);
 
         return $(settingsContainer)[0];
     }
