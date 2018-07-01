@@ -19,6 +19,7 @@
     v1.5.1  (August 10th 2017):     Fix styling when using Clean & Compact
     v1.5.2  (October 28th 2017):    Fix broken channels wrapper selector
     v1.5.3  (June 30th 2018):       Fix settings menu
+    v1.5.4  (July 1st 2018):        Expose hotkeys in settings, enable hiding buttons, reorganize settings menu, refactor
  */
 
 class TSContainer {
@@ -41,6 +42,10 @@ class TSContainer {
 
     get isEnabled() {
         return this.plugin.settings.enabled[this.index];
+    }
+
+    get keyCode() {
+        return this.plugin.settings.keyCode[this.index];
     }
 
     get containerElem() {
@@ -110,7 +115,9 @@ class TSContainer {
 const defaultSettings = {
     enabled: [true, true],
     closed: [false, false],
+    keyCode: [88, 67],
     color: "#738BD7",
+    hideButtons: false,
 };
 
 class ToggleSections {
@@ -144,7 +151,7 @@ class ToggleSections {
     }
 
     getVersion() {
-        return "1.5";
+        return "1.5.4";
     }
 
     getAuthor() {
@@ -162,7 +169,7 @@ class ToggleSections {
             bdPluginStorage.set("ToggleSections", "settings", JSON.stringify(defaultSettings));
 
         this.settings = JSON.parse(bdPluginStorage.get("ToggleSections", "settings"));
-        
+    
         // There's no fixed .channels-wrap element to target anymore, so need to look for the element
         const channelsClassName = $('*[class^="channels-"]').attr("class").split(" ").find(cn => cn.startsWith("channels-"))
 
@@ -203,6 +210,7 @@ class ToggleSections {
             '.toggleable.closed > *:not(.toggle-section) { opacity: 0 !important; }',
 
             '.toggle-section {',
+                settings.hideButtons ? 'display: none;' : '',
                 'position: absolute;',
                 'bottom: 0;',
                 'z-index: 6;',
@@ -247,61 +255,89 @@ class ToggleSections {
         $("head").append(`<style id="toggle-sections">${css}</style>`);
     }
 
-    // TODO: Make hotkeys configurable
     setupHotkeys() {
-        $(document).on("keypress.ts", ({ ctrlKey, shiftKey, keyCode }) => {
+        const { containers, settings } = this
+        $(document).on("keydown.ts", ({ ctrlKey, shiftKey, keyCode }) => {
             if(!ctrlKey || !shiftKey) return;
 
-            // C
-            if(keyCode === 3) this.channelContainer.toggle();
-            // X
-            else if(keyCode === 24) this.guildContainer.toggle();
+            containers.forEach(container => {
+                if(container.keyCode == keyCode)
+                    container.toggle();
+            });
         });
     }
 
     getSettingsPanel() {
-        const { containers, settings, addStyling, updateSettings, onSwitch } = this;
+        const { containers, settings, addStyling, updateSettings, onSwitch, setupHotkeys } = this;
 
         const settingsContainer = $('<div/>', { id: "ts-settings" });
-        const colorPicker = $("<input/>", {
-            type: "color",
-            class: "swatch default",
-            id: "color-picker"
-        });
-        colorPicker.prop("value", settings.color);
-
+        
+        const containersTable = $('<table />');
+        
+        containersTable.append("<tr><th>Name</th><th>Enabled</th><th>Keybind</th></tr>");
+        
         containers.forEach((container, i) => {
-            const checkbox = $('<input />', {
-                "type": 'checkbox',
+            const tableRow = $('<tr />');
+            
+            tableRow.append($('<td />').append($('<span />', {
+                text: container.label
+            })));
+            
+            tableRow.append($('<td />').append($('<input />', {
+                type: 'checkbox',
                 "data-ts-i": i,
-                "id": 'ts-'+ container.className,
-                "checked": container.isEnabled,
+                id: 'ts-'+ container.className,
+                checked: container.isEnabled,
                 click() {
-                    const elem = $(this);
-                    const isChecked = elem.attr("checked");
-
-                    settings.enabled[container.index] = !settings.enabled[container.index];
-
+                    settings.enabled[container.index] = $(this).val();
                     updateSettings();
                     onSwitch();
                 }
-            });
+            })));
 
-            const checkboxLabel = $('<span />', {
-                text: container.label
-            });
+            tableRow.append($('<td />').append($('<input />', {
+                type: 'text',
+                "data-ts-i": i,
+                id: 'ts-'+ container.className,
+                value: String.fromCharCode(container.keyCode),
+                keyup({ keyCode }) {
+                    $(this).val(String.fromCharCode(keyCode));
+                    settings.keyCode[container.index] = keyCode;
+                    setupHotkeys();
+                    updateSettings();
+                },
+            })));
 
-            settingsContainer.append(checkbox, checkboxLabel, '<br/>');
+            containersTable.append(tableRow);
+        });
+        
+        settingsContainer.append(containersTable, '<br/>');
+
+        const colorPicker = $("<input/>", {
+            type: "color",
+            class: "swatch default",
+            id: "color-picker",
+            value: settings.color,
+            change() {
+                settings.color = $(this).prop("value");
+                addStyling();
+                updateSettings();
+            }
         });
 
-        settingsContainer.append('<span>Button color:</span>', colorPicker);
+        settingsContainer.append('<span>Button Color</span>', colorPicker, '<br/>');
 
-        colorPicker.on("change", function() {
-            const newColor = $(this).prop("value");
-            settings.color = newColor;
-            updateSettings();
-            addStyling();
+        const hideButtonsCheckbox = $("<input/>", {
+            type: "checkbox",
+            checked: settings.hideButtons,
+            change() {
+                settings.hideButtons = $(this).val();
+                addStyling();
+                updateSettings();
+            }
         });
+
+        settingsContainer.append('<span>Hide Buttons</span>', hideButtonsCheckbox);
 
         return $(settingsContainer)[0];
     }
