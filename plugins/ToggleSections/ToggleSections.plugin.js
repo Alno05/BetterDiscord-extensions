@@ -19,7 +19,7 @@
     v1.5.1  (August 10th 2017):     Fix styling when using Clean & Compact
     v1.5.2  (October 28th 2017):    Fix broken channels wrapper selector
     v1.5.3  (June 30th 2018):       Fix settings menu
-    v1.5.4  (July 1st 2018):        Expose hotkeys in settings, enable hiding buttons, reorganize settings menu, refactor
+    v1.6.0  (July 2nd 2018):        Expose hotkeys in settings, enable hiding buttons, reorganize settings menu, refactor
  */
 
 class TSContainer {
@@ -151,7 +151,7 @@ class ToggleSections {
     }
 
     getVersion() {
-        return "1.5.4";
+        return "1.6.0";
     }
 
     getAuthor() {
