@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.2"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.3"}*//
 
 /*
     Changelog
@@ -36,6 +36,7 @@
     v1.8.0 (June 23rd 2018) Added activity feed support, friends tab DM list fixes
     v1.8.1 (June 23rd 2018) Embed fixes, fixes related to the bottom left section (user avatar, currently connected voice info, etcetc.)
     v1.8.2 (June 24th 2018) Minor embed adjustments
+    v1.8.3 (August 2nd 2018) Fix guild icons, restore old chat (message) styling
  */
 
 
@@ -46,24 +47,24 @@
      */
 
     /* General */
-    a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var, .modal *, .chat .new-messages-bar button:first-child {
+    a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var, .da-modal *, .chat .new-messages-bar button:first-child {
         font-size: 15px !important;
         /* Fixes random flickering effect */
         backface-visibility: hidden !important;
     }
 
     /* Message timestamp */
-    .message-group.compact .markup:not([class*='embed']) span.timestamp,
-    .message-group h2 span.timestamp {
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-markup:not([class*='embed']) span.timestamp,
+    .da-messages > div[class^='container'] h2 span.timestamp {
         font-size: 0.8rem !important;
     }
-    .message-group.compact .markup:not([class*='embed']) span.timestamp {
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-markup:not([class*='embed']) span.timestamp {
         position: relative;
         top: -3px;
     }
     /* Message (sender, content) */
-    .message-text .markup:not([class*='embed']) span,
-    .message-text .markup:not([class*='embed']) .user-name { font-size: 15px !important; }
+    .message-text .da-markup:not([class*='embed']) span,
+    .message-text .da-markup:not([class*='embed']) .user-name { font-size: 15px !important; }
 
     .app > .flex-spacer,
     #friends .friends-table .friends-table-body { background: rgb(17,17,17) !important; }
@@ -89,7 +90,7 @@
     .private-channels .channel.selected,
     .da-activityFeed,
     .messages-wrapper .messages .da-embedInner,
-    .guilds-add {
+    .da-guildsAdd {
         background: transparent !important;
         background-color: transparent !important;
     }
@@ -105,7 +106,7 @@
     }
 
     /* Chat section header, server list */
-    .guilds-wrapper {
+    .da-guildsWrapper {
         background: rgb(32,32,32) !important;
         /*border-bottom: 1px solid #1c1e22 !important;*/
     }
@@ -131,7 +132,7 @@
     .channel-members-loading .member,
     .channel-members-loading .heading { background-image: none !important; }
 
-    .guild-header ul { opacity: 0; top: 54px; }
+    .da-guild-header ul { opacity: 0; top: 54px; }
 
     /* Channel, user etc. hover effect */
     .private-channels .channel:hover,
@@ -159,20 +160,20 @@
 
 
     /* Wrapper / container */
-    .guilds-wrapper {
+    .da-guildsWrapper {
         width: 60px;
         transition: width 150ms;
         /*border-right: 1px solid #1c1e22;*/
     }
-    .guilds-wrapper .guilds {
+    .da-guildsWrapper .da-guilds {
         width: 60px;
         padding: 14px 9px;
         overflow-x: hidden;
         position: relative;
     }
 
-    #bd-pub-li .guild-inner a { border-color: transparent !important; }
-    .guilds .guild .badge {
+    #bd-pub-li .da-guildInner a { border-color: transparent !important; }
+    .da-guilds div[class^='guild-'] .da-badge {
         z-index: 3;
         border-radius: 10px;
         font-size: 9px !important;
@@ -186,18 +187,18 @@
         opacity: 0.8;
         font-weight: 600;
     }
-    .guilds .guild:not(:first-of-type) .badge,
-    .guilds .dms .guild .badge {
+    .da-guilds div[class^='guild-']:not(:first-of-type) .da-badge,
+    .da-guilds .da-dms div[class^='guild-'] .da-badge {
         opacity: 1;
         left: 27px;
     }
 
-    .guilds .guild .da-avatarWrapper {
+    .da-guilds div[class^='guild-'] div[class*='avatar'] {
         z-index: 2;
     }
 
     /* Server buttons */
-    .guilds .friends-online {
+    .da-guilds .da-friendsOnline {
         font-size: 10px !important;
         width: 15px !important;
         height: 13px !important;
@@ -215,11 +216,11 @@
         z-index: 2;
     }
 
-    .guilds-error { width: 35px; height: 35px; line-height: 32px; margin-left: 3px; }
-    .guilds .guild, .guilds .guild .guilds-error { width: 35px !important; height: 35px !important; line-height: 35px !important; background-size: 35px 35px !important; }
-    .guilds .guild:first-of-type:hover ~ .friends-online, .guilds .guild:first-of-type.active ~ .friends-online { opacity: 1; }
-    .guilds .guild .da-avatarWrapper { width: 35px !important; height: 35px !important; background-size: 35px 35px !important; }
-    .guilds .guild .guild-inner a {
+    .da-guildsError { width: 35px; height: 35px; line-height: 32px; margin-left: 3px; }
+    .da-guilds div[class^='guild-'], .da-guilds div[class^='guild-'] .da-guildsError { width: 35px !important; height: 35px !important; line-height: 35px !important; background-size: 35px 35px !important; }
+    .da-guilds div[class^='guild-']:first-of-type:hover ~ .da-friendsOnline, .da-guilds div[class^='guild-']:first-of-type.active ~ .da-friendsOnline { opacity: 1; }
+    .da-guilds div[class^='guild-'] div[class*='avatar'] { width: 35px !important; height: 35px !important; background-size: 35px 35px !important; }
+    .da-guilds .da-guildInner a {
         width: 35px !important;
         height: 35px !important;
         border-radius: 50% !important;
@@ -228,12 +229,12 @@
         border: 2px solid rgba(255,255,255,0.15);
         position: relative;
     }
-    .guilds-wrapper .guilds .guild-icon {
+    .da-guildsWrapper .da-guilds .da-guildIcon {
         width: 35px !important;
         height: 35px !important;
         border-radius: 50% !important;
     }
-    .guilds .friends-icon {
+    .da-guilds .friendsIcon {
         width: 25px !important;
         height: 25px !important;
         background-size: 25px 25px !important;
@@ -243,14 +244,14 @@
         z-index: 2;
     }
 
-    .guilds .guild .guild-inner {
+    .da-guilds .da-guildInner {
         line-height: 35px !important;
         border-radius: 50% !important;
         background: transparent !important;
         width: 45px;
         overflow: visible;
     }
-    .guilds-wrapper .guilds .guild.audio .guild-inner:after {
+    .da-guildsWrapper .da-guilds .da-guild.da-audio .da-guildInner:after {
         left: 8px;
         bottom: 5px;
         background-size: 16px;
@@ -259,28 +260,28 @@
         z-index: 2;
     }
 
-    .guilds-wrapper .guild-separator { height: 8px !important; }
-    .guilds-wrapper .guild-separator:after {
+    .da-guildsWrapper .da-guildSeparator { height: 8px !important; }
+    .da-guildsWrapper .da-guildSeparator:after {
         background: rgba(115,139,215,0.4);
         left: 10%;
         right: 35%;
     }
 
-    .guilds-add {
+    .da-guildsAdd {
         font-size: 25px !important;
         line-height: 50% !important;
         margin: 5px 0 0 2px;
     }
 
-    .guilds .audio .guild-inner::after {
+    .da-guilds .audio .da-guildInner::after {
         width: 18px;
         height: 18px;
     }
 
-    .guilds-wrapper .guilds .guild+.guild { margin-top: 10px; }
-    .guilds-wrapper .guilds .guild.selected:before { display: none; }
+    .da-guildsWrapper .da-guilds div[class^='guild-']+div[class^='guild-'] { margin-top: 10px; }
+    .da-guildsWrapper .da-guilds div[class^='guild-'][class*='selected']:before { display: none; }
 
-    .guilds .guild-inner::before {
+    .da-guilds .da-guildInner::before {
         content: " ";
         position: absolute;
         height: 42px !important;
@@ -295,7 +296,7 @@
         transition: left 250ms; transition: padding 250ms;
     }
 
-    .guilds .guild:hover .guild-inner::before {
+    .da-guilds div[class^='guild-']:hover .da-guildInner::before {
         left: -45px !important;
         padding-right: 42px;
         margin-top: 0;
@@ -303,8 +304,8 @@
         background: rgba(115, 139, 215, 0.2) !important;
     }
 
-    .guilds .guild.selected .guild-inner a { border-color: #E2E2E2; }
-    .guilds .guild.selected .guild-inner::before {
+    .da-guilds div[class^='guild-'][class*='selected'] .da-guildInner a { border-color: #E2E2E2; }
+    .da-guilds div[class^='guild-'][class*='selected'] .da-guildInner::before {
         left: -45px !important;
         padding-right: 41px;
         border-radius: 0 20px 20px 0;
@@ -312,7 +313,10 @@
         transition: background 350ms;
     }
 
-    .guilds .guild.unread:not(.active) .guild-inner::after {
+    .da-guilds div[class*='unread-']::before {
+        display: none;
+    }
+    .da-guilds div[class*='unread-']:not([class*='selected']) .da-guildInner::after {
         content: "\01F4AC";
         position: absolute;
         z-index: 2;
@@ -327,7 +331,6 @@
         animation-duration: .2s;
         animation-iteration-count: 1;
         animation-timing-function: ease-in-out;
-        pointer-events: none;
     }
 
     /* Help button @ bottom left corner */
@@ -374,7 +377,7 @@
         width: 80px;
     }
     
-    .guild-header header span {
+    .da-guild-header header span {
         white-space: normal;
         line-height: 100%;
     }
@@ -422,7 +425,7 @@
     }
 
     .da-channels div[class^='content'] .margin-reset { color: #738bd7 !important; }
-    .da-channels .channel-text .badge {
+    .da-channels .channel-text .da-badge {
         margin-left: -15px;
         position: absolute;
         right: 22px;
@@ -468,8 +471,8 @@
         display: none;
     }
 
-    .guild-header ul a { margin: 0; }
-    .guild-header.guild-header-open ul {
+    .da-guild-header ul a { margin: 0; }
+    .da-guild-header.guild-header-open ul {
         opacity: 1;
         background: rgba(0,0,0,0.98);
         border-bottom: 1px solid #1c1e22;
@@ -507,11 +510,11 @@
     .btn {
         width: 22px;
         height: 22px;
-    }
-    .btn {
         margin-right: 0;
     }
-
+    .da-modal .form-deprecated .btn, .form.deprecated .btn {
+        line-height: 0;
+    }
     .da-channels > div[class^='container'] {
         background: rgb(27,27,27) !important;
         border-bottom: none;
@@ -540,7 +543,7 @@
         border-top: none;
         margin-bottom: 0;
     }
-    .da-channels > div:last-of-type div[class^='avatar'] {
+    .da-channels > div:last-of-type div[class*='avatar'] {
         margin-left: 5px;
         display: block !important;
     }
@@ -661,68 +664,83 @@
     .channel-textarea-upload { border-color: #1c1e22; }
 
     /* Message styling */
-    .message-group {
+    .da-messages .da-divider {
+        display: none;
+    }
+
+    .da-messages > div[class^='container'] {
         padding: 5px 0;
-        margin-left: 15px;
-        margin-right: 0;
         border-bottom: none;
         overflow: hidden;
     }
 
-    .message-group .comment { margin-right: 5px; }
-    .message-group .message { position: relative; }
-    .message-group.compact { margin-left: 5px; }
-    .message-group.compact .comment .markup:not([class*='embed']) {
+    .da-messages > div[class^='container'] .da-comment { margin-right: 5px; }
+    .da-messages > div[class^='container'] .da-message { position: relative; }
+    .da-messages > .da-container.da-messages > .da-containerCompact { margin-left: 5px; }
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-comment .da-markup:not([class*='embed']) {
         padding-left: 75px;
         text-indent: -75px;
     }
-    .message-group span[class^='botTag'] {
+    .da-messages > div[class^='container'] span[class^='botTag'] {
         font-size: 0.8rem !important;
     }
-    .message-group.compact span[class^='botTag'] {
-        margin: 2px 3px 0 0 !important;
-        line-height: 20px;
+    .da-messages > .da-container.da-messages > .da-containerCompact span[class^='botTag'] {
+        margin: -4px 3px 0 0 !important;
+        line-height: 14px;
         font-size: 0 !important;
     }
-    .message-group .comment .markup:not([class*='embed']) {
+    .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) {
         min-height: 25px;
         line-height: 25px;
         color: rgba(255, 255, 255, 0.7);
         margin-top: 0;
     }
-    .message-group.compact .comment .markup:not([class*='embed']) { margin-bottom: 0; }
-    .message-group .da-embed,
-    .message-group .game-invite-embed { background: rgb(22,22,22); border: none !important; }
-    .message-group .da-embedField .markup { margin-top: 0; }
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-comment .da-markup:not([class*='embed']) { margin-bottom: 0; }
+    .da-messages > div[class^='container'] .da-embed,
+    .da-messages > div[class^='container'] .da-gameInviteEmbed {
+        background: rgb(22,22,22);
+        border: none !important;
+        margin: 8px 0;
+    }
+    .da-messages > div[class^='container'] .da-embedField .da-markup { margin-top: 0; }
 
-    .message-group .game-invite-embed {
+    .da-messages > div[class^='container'] .da-gameInviteEmbed {
         height: auto;
         padding: 10px;
     }
     
-    .message-group .message .markup:not([class*='embed']) a { white-space: pre; }
-    .message-group .mentioned .message-text { background: rgb(27,27,27) !important; }
+    .da-messages > div[class^='container'] .da-message .da-markup:not([class*='embed']) a { white-space: pre; }
+    .da-messages > div[class^='container'] .da-mentioned .da-messageText { background: rgb(27,27,27) !important; }
 
-    .message-group .avatar-large {
+    .da-messages > div[class^='container'] div[class*='avatar'] {
         margin-top: 0;
         margin-right: 12px;
         width: 30px;
         height: 30px;
-        background-size: 30px 30px;
+    }
+    .da-messages > div[class^='container'] div[class*='avatar'] .da-image {
+        width: 30px;
+        height: 30px;
     }
 
-    .message-group.compact .accessory { padding-left: 70px; }
-    .popout .message-group.compact .accessory {
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-accessory { padding-left: 70px; }
+    .popout .da-messages > .da-container.da-messages > .da-containerCompact .da-accessory {
         padding-left: 10px;
         margin-left: 0;
         margin-right: 0;
     }
-    .popout .message-group .accessory {
+    .popout .da-messages > div[class^='container'] .da-accessory {
         padding-left: 10px;
         margin-left: -55px;
         margin-right: -10px;
     }
-    .message .btn-option { position: relative; z-index: 3 !important; }
+    .da-messages .da-containerCozy {
+        margin: 3px 0;
+    }
+    .da-messages .da-contentCozy {
+        margin-left: 60px;
+    }
+    .da-message .btn-option { position: relative; z-index: 3 !important; }
 
     .reaction { background: rgb(27,27,27) !important; transition: background 150ms; }
     .reaction:hover { background: rgb(37,37,37) !important; }
@@ -746,7 +764,7 @@
     }
 
     /* Emoji */
-    .markup:not([class*='embed']) .emoji {
+    .da-markup:not([class*='embed']) .emoji {
         height: 25px !important;
         width: 25px !important;
         line-height: 25px !important;
@@ -761,9 +779,9 @@
     }
 
     /* Chat @mention highlight */
-    .message-group .mentioned.first .message-text { margin-top: 5px !important; }
-    .message-group.compact .mentioned.first .message-text { margin-top: 0 !important; }
-    .message-group .mentioned .message-text {
+    .da-messages > div[class^='container'] .da-mentioned.da-messageText-text { margin-top: 5px !important; }
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-mentioned.da-messageText-text { margin-top: 0 !important; }
+    .da-messages > div[class^='container'] .da-mentioned .da-messageText {
         padding: 1px 3px !important;
         border-radius: 2px;
         border: solid #faa61a;
@@ -776,7 +794,7 @@
     .messages-wrapper .messages .divider div { background: rgb(47,47,47) !important; }
     .messages-wrapper .messages .divider.divider-red>div { background: #f04747 !important; }
     .friends-table .messages .divider:before, .friends-table .messages .divider span, .messages-wrapper .messages .divider:before, .messages-wrapper .messages .divider span { background-color: transparent !important; }
-    .message-group .comment .markup:not([class*='embed']) pre {
+    .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) pre {
         background: rgb(27,27,27) !important;
         border-color: rgb(27,27,27) !important;
         display: inline-block;
@@ -784,7 +802,7 @@
         position: relative !important;
         bottom: -9px !important;
     }
-    .message-group .markup:not([class*='embed']) pre code {
+    .da-messages > div[class^='container'] .da-markup:not([class*='embed']) pre code {
         background: transparent !important;
     }
     .messages-wrapper .messages .da-embed {
@@ -792,8 +810,8 @@
     }
 
     /* Messages from blocked people */
-    .friends-table .messages .message-group-blocked,
-    .messages-wrapper .messages .message-group-blocked {
+    .friends-table .messages .da-messages > .da-container-blocked,
+    .messages-wrapper .messages .da-messages > .da-container-blocked {
         display: none;
     }
 
@@ -838,7 +856,7 @@
         top: 15px;
     }
 
-    .compact .spoiler:before {
+    .da-messages > .da-containerCompact .spoiler:before {
         width: 86%;
         top: 0;
     }
@@ -847,25 +865,24 @@
     .highlight { background: #1c1e22; }
 
     /* Compact message styling */
-    .message-group.compact { padding: 0 !important; }
-    .message-group.compact .message { margin: 3px 0; line-height: 25px; }
-    .message-group.compact .timestamp { line-height: 15px !important; color: #d1d9de; }
-    .message-group.compact .timestamp:hover { color: #99aab5 !important; }
+    .da-messages > .da-container.da-messages > .da-containerCompact { padding: 0 !important; }
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-message { margin: 3px 0; line-height: 25px; }
+    .da-messages > .da-container.da-messages > .da-containerCompact .timestamp { line-height: 15px !important; color: #d1d9de; }
+    .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover { color: #99aab5 !important; }
 
     /* Embedded previews etc */
-    .message-group.compact .da-embed { padding: 0; }
-    .message-group.compact .da-embed .da-embedAuthor,
-    .message-group.compact .da-embed .da-embedTitle,
-    .message-group.compact .da-embed .da-embedProvider,
-    .message-group.compact .da-embed .da-embedFieldName {
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-embed { padding: 0; }
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-embed .da-embedAuthor,
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-embed .da-embedTitle,
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-embed .da-embedProvider,
+    .da-messages > .da-container.da-messages > .da-containerCompact .da-embed .da-embedFieldName {
         margin-bottom: 0 !important;
     }
 
     .da-embed {
-        padding: 12px 10px 8px;
         background-color: rgb(22,22,22) !important;
     }
-    .message-group .da-embed-wrapper .da-embedPill { background-color: rgb(87,87,87); }
+    .da-messages > div[class^='container'] .da-embed-wrapper .da-embedPill { background-color: rgb(87,87,87); }
     .da-embed .da-embedProvider,
     .da-embed .da-embedAuthor,
     .da-embed .da-embedTitle,
@@ -876,6 +893,7 @@
     .da-embed strong,
     .da-embed code {
         font-size: 13px !important;
+        line-height: 1.125rem;
     }
     .da-embed .da-embedDescription {
         padding-left: 0 !important;
@@ -1007,7 +1025,7 @@
     }
 
     /* User image @ channel's user list */
-    .da-membersWrap div[class*='members-'] .da-avatarWrapper {
+    .da-membersWrap div[class*='members-'] span[class*='avatar'] {
         width: 20px;
         height: 20px;
         margin-right: 0;
@@ -1015,14 +1033,14 @@
         z-index: 2;
     }
 
-    /* .da-membersWrap div[class*='members-'] .da-avatarWrapper .da-wrapper, */
-    .da-membersWrap div[class*='members-'] .da-avatarWrapper div[class^='image-'] {
+    /* .da-membersWrap div[class*='members-'] span[class*='avatar'] .da-wrapper, */
+    .da-membersWrap div[class*='members-'] span[class*='avatar'] div[class^='image-'] {
         width: 20px;
         height: 20px;
     }
 
     /* Online status indicator */
-    .da-membersWrap div[class*='members-'] .da-avatarWrapper div[class*='status-'] {
+    .da-membersWrap div[class*='members-'] span[class*='avatar'] div[class*='status-'] {
         top: 45%;
         right: 5px;
         border: 2px solid #1c1e22;
@@ -1032,7 +1050,7 @@
     .da-membersWrap div[class*='members-'] .da-member.memberOffline::before,
     .da-membersWrap div[class*='members-'] .da-member.memberOffline::after { display: none !important; }
 
-    .da-membersWrap div[class*='members-'] .da-member.memberOffline .da-avatarWrapper {
+    .da-membersWrap div[class*='members-'] .da-member.memberOffline span[class*='avatar'] {
         height: 0;
         width: 0;
         background-size: 0 0;
@@ -1144,7 +1162,7 @@
         background-color: rgb(42,47,47);
     }
     .private-channels .channel a .da-wrapper,
-    .private-channels .channel a div[class^='avatar'] {
+    .private-channels .channel a div[class*='avatar'] {
         width: 25px;
         height: 25px;
         background-size: 25px;
@@ -1158,24 +1176,24 @@
     .private-channels .channel a .channel-game strong span { font-size: 9px !important; }
     .private-channels .channel a .channel-activity { font-size: 13px !important; }
 
-    .friends-table .messages .message-group.compact .user-name,
-    .messages-wrapper .messages .message-group.compact .user-name {
+    .friends-table .messages .da-messages > .da-container.da-messages > .da-containerCompact .user-name,
+    .messages-wrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .user-name {
         color: #f9f9f9;
     }
 
-    .friends-table .messages .message-group .comment .markup:not([class*='embed']) code.inline,
-    .friends-table .messages .message-group .comment .markup:not([class*='embed']) pre code,
-    .messages-wrapper .messages .message-group .comment .markup:not([class*='embed']) code.inline {
+    .friends-table .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) code.inline,
+    .friends-table .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) pre code,
+    .messages-wrapper .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) code.inline {
         background: rgb(27,27,27) !important;
     }
 
-    .friends-table .messages .message-group.compact .timestamp,
-    .messages-wrapper .messages .message-group.compact .timestamp {
+    .friends-table .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp,
+    .messages-wrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp {
         color: rgba(255, 255, 255, 0.2) !important;
     }
 
-    .friends-table .messages .message-group.compact .timestamp:hover,
-    .messages-wrapper .messages .message-group.compact .timestamp:hover {
+    .friends-table .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover,
+    .messages-wrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover {
         color: #99aab5 !important;
     }
     
@@ -1241,13 +1259,12 @@
     }
 
     /* "What's new" cards (identified by the .da-card element not having a marginTop20 class */
-    .da-activityFeed .da-card:not([class*='marginTop']) .da-cardBody,
-    .da-activityFeed .da-card:not([class*='marginTop']) .da-game {
+    .da-activityFeed .da-card:not([class*='marginTop']) .da-cardBody {
         padding: 10px 10px 0;
     }
 
     .da-activityFeed .da-card:not([class*='marginTop']) .da-game {
-        padding: 10px 10px 0;
+        padding: 0 0 10px;
         background-color: rgb(27,27,27) !important;
     }
 
@@ -1256,7 +1273,7 @@
         border-bottom-color: rgb(37,37,37);
     }
 
-    .da-activityFeed .da-avatar,
+    .da-activityFeed div[class*='avatar'],
     .da-activityFeed .da-image {
         height: 30px;
         width: 30px;
@@ -1336,14 +1353,14 @@
 
 /********************* BetterDiscord Minimal Mode support **********************/
 
-    .bd-minimal .guilds-wrapper { width: 45px !important; }
+    .bd-minimal .da-guildsWrapper { width: 45px !important; }
     .bd-minimal #bd-pub-li { line-height: 20px !important; }
-    .bd-minimal .guilds .friends-icon {
+    .bd-minimal .da-guilds .friends-icon {
         top: 0;
         left: 0;
     }
 
-    .bd-minimal .guilds .friends-icon, .bd-minimal .guilds .guild, .bd-minimal .guilds .guild .da-avatarWrapper,.bd-minimal .guilds .guild .guild-inner, .bd-minimal .guilds .guild .guild-inner a {
+    .bd-minimal .da-guilds .friends-icon, .bd-minimal .da-guilds div[class^='guild-'], .bd-minimal .da-guilds div[class^='guild-'] div[class*='avatar'],.bd-minimal .da-guilds .da-guildInner, .bd-minimal .da-guilds .da-guildInner a {
         width: 20px !important;
         height: 20px !important;
         background-size: 100% !important;
@@ -1351,15 +1368,15 @@
         line-height: 20px !important;
     }
 
-    .bd-minimal .guilds .friends-online {
+    .bd-minimal .da-guilds .da-friendsOnline {
         width: 20px !important;
         height: 20px !important;
         line-height: 20px !important;
         margin-left: -5px;
     }
 
-    .bd-minimal .guilds .guild.selected .guild-inner::before,
-    .bd-minimal .guilds .guild:hover .guild-inner::before {
+    .bd-minimal .da-guilds div[class^='guild-'][class*='selected'] .da-guildInner::before,
+    .bd-minimal .da-guilds div[class^='guild-']:hover .da-guildInner::before {
         height: 24px !important;
         width: 20px !important;
         left: -65px !important;
@@ -1367,10 +1384,10 @@
         margin-top: 0;
     }
 
-    /* Unread messages icon */
-    .guild.unread::before { display: none; }
+    /* Unread messages icon *da-/
+    .da-guild.unread::before { display: none; }
 
-    .bd-minimal .theme-dark .comment { border-left: none; }
+    .bd-minimal .theme-dark .da-comment { border-left: none; }
 
     .bd-minimal .da-membersWrap { width: 80px; }
     .bd-minimal .da-membersWrap div[class*='members-'] { width: 80px; }
@@ -1378,11 +1395,11 @@
     .bd-minimal .da-membersWrap div[class*='members-'] div[class^='memberO'] .da-memberInner { padding: 1px 8px; }
 
     /* User list online status indicator */
-    .bd-minimal .da-membersWrap div[class*='members-'] .da-avatarWrapper .status { top: 11px !important; }
+    .bd-minimal .da-membersWrap div[class*='members-'] div[class*='avatar'] .status { top: 11px !important; }
 
     .bd-minimal .account .username { display: block; }
 
-    .bd-minimal .da-membersWrap div[class*='members-'] .da-avatarWrapper .status-typing {	width: 17px !important;	}
+    .bd-minimal .da-membersWrap div[class*='members-'] div[class*='avatar'] .status-typing {	width: 17px !important;	}
 
 
 
@@ -1393,7 +1410,7 @@
         line-height: 35px !important;
         margin: 5px 0 !important;
     }
-    #bd-pub-li .guild-inner,
+    #bd-pub-li .da-guildInner,
     #bd-pub-button {
         line-height: 35px !important;
         height: 35px !important;
