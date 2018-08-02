@@ -174,7 +174,7 @@ class ToggleSections {
         const channelsClassName = $("*[class^=\"channels-\"]").attr("class").split(" ").find(cn => cn.startsWith("channels-"))
 
         this.containers = [
-            new TSContainer(this, 0, { label: "Guild list", className: "guilds-wrapper", position: "right" }),
+            new TSContainer(this, 0, { label: "Guild list", className: "da-guildsWrapper", position: "right" }),
             new TSContainer(this, 1, { label: "Channel list", className: channelsClassName, position: "right" }),
         ];
 
