@@ -664,7 +664,7 @@
     .channel-textarea-upload { border-color: #1c1e22; }
 
     /* Message styling */
-    .da-messages .da-divider {
+    .da-messages > div[class^='container'] .da-divider {
         display: none;
     }
 
@@ -710,7 +710,7 @@
     }
     
     .da-messages > div[class^='container'] .da-message .da-markup:not([class*='embed']) a { white-space: pre; }
-    .da-messages > div[class^='container'] .da-mentioned .da-messageText { background: rgb(27,27,27) !important; }
+    .da-messages > div[class^='container'] .da-isMentioned { background: rgb(27,27,27) !important; }
 
     .da-messages > div[class^='container'] div[class*='avatar'] {
         margin-top: 0;
@@ -734,8 +734,8 @@
         margin-left: -55px;
         margin-right: -10px;
     }
-    .da-messages .da-containerCozy {
-        margin: 3px 0;
+    .da-messages > div[class^='containerCozy'] {
+        margin: 8px 0 0;
     }
     .da-messages .da-contentCozy {
         margin-left: 60px;
