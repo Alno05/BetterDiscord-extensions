@@ -20,6 +20,7 @@
     v1.5.2  (October 28th 2017):    Fix broken channels wrapper selector
     v1.5.3  (June 30th 2018):       Fix settings menu
     v1.6.0  (July 2nd 2018):        Expose hotkeys in settings, enable hiding buttons, reorganize settings menu, refactor
+    v1.6.1  (August 2nd 2018):      Fix guild wrapper selector, remove channel wrapper hack
  */
 
 class TSContainer {
@@ -62,16 +63,12 @@ class TSContainer {
 
     attachHandler() {
         const {
-            buttonElem,
             buttonElemExists,
             containerElem,
-            handleClick,
             isClosed,
             isEnabled,
-            index,
             position,
             className,
-            plugin,
             close,
             toggle,
         } = this;
@@ -151,7 +148,7 @@ class ToggleSections {
     }
 
     getVersion() {
-        return "1.6.0";
+        return "1.6.1";
     }
 
     getAuthor() {
@@ -170,12 +167,9 @@ class ToggleSections {
 
         this.settings = Object.assign({}, defaultSettings, JSON.parse(bdPluginStorage.get("ToggleSections", "settings")));
 
-        // There's no fixed .channels-wrap element to target anymore, so need to look for the element
-        const channelsClassName = $("*[class^=\"channels-\"]").attr("class").split(" ").find(cn => cn.startsWith("channels-"))
-
         this.containers = [
             new TSContainer(this, 0, { label: "Guild list", className: "da-guildsWrapper", position: "right" }),
-            new TSContainer(this, 1, { label: "Channel list", className: channelsClassName, position: "right" }),
+            new TSContainer(this, 1, { label: "Channel list", className: "da-channels", position: "right" }),
         ];
 
         onSwitch();
@@ -256,7 +250,7 @@ class ToggleSections {
     }
 
     setupHotkeys() {
-        const { containers, settings } = this
+        const { containers } = this
         $(document).off("keydown.ts");
         $(document).on("keydown.ts", ({ ctrlKey, shiftKey, keyCode }) => {
             if(!ctrlKey || !shiftKey) return;
