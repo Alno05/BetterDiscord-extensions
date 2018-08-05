@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.3"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.4"}*//
 
 /*
     Changelog
@@ -37,6 +37,7 @@
     v1.8.1 (June 23rd 2018) Embed fixes, fixes related to the bottom left section (user avatar, currently connected voice info, etcetc.)
     v1.8.2 (June 24th 2018) Minor embed adjustments
     v1.8.3 (August 2nd 2018) Fix guild icons, restore old chat (message) styling
+    v1.8.4 (August 5th 2018) Updated (chat related) selectors
  */
 
 
@@ -47,7 +48,7 @@
      */
 
     /* General */
-    a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var, .da-modal *, .chat .new-messages-bar button:first-child {
+    a, abbr, acronym, address, applet, big, blockquote, body, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var, .da-modal *, div[class^='chat-'] .new-messages-bar button:first-child {
         font-size: 15px !important;
         /* Fixes random flickering effect */
         backface-visibility: hidden !important;
@@ -75,21 +76,21 @@
 
     /* Container transparency */
     .links,
-    .chat,
+    div[class^='chat-'],
     div[class^='typing'],
     .content,
     div[class^='content'],
     .da-channels,
     .private-channels,
-    .divider,
-    .divider-red span,
-    .messages-wrapper,
+    .da-divider,
+    .da-dividerRed span,
+    .da-messagesWrapper,
     .rtc-connection-status,
-    .channel-textarea textarea,
+    div[class^='channelTextArea'] textarea,
     .friends-table,
     .private-channels .channel.selected,
     .da-activityFeed,
-    .messages-wrapper .messages .da-embedInner,
+    .da-messagesWrapper .messages .da-embedInner,
     .da-guildsAdd {
         background: transparent !important;
         background-color: transparent !important;
@@ -99,7 +100,7 @@
     .account .btn,
     .rtc-connection-status .btn,
     .help-container,
-    .messages-wrapper .messages .divider span {
+    .da-messagesWrapper .messages .da-divider span {
         background: transparent !important;
         background-color: transparent !important;
         box-shadow: none;
@@ -111,7 +112,7 @@
         /*border-bottom: 1px solid #1c1e22 !important;*/
     }
 
-    .chat div[class^='titleWrapper'] > div {
+    div[class^='chat-'] div[class^='titleWrapper'] > div {
         background: rgb(27,27,27) !important;
     }
 
@@ -122,7 +123,7 @@
     }
 
     /* Chat */
-    .content .flex-spacer { background: rgb(17,17,17); }
+    div[class^='chat-'] .da-flexSpacer { background: rgb(17,17,17); }
 
     /* Channel user list */
     .da-membersWrap div[class*='members-'] { background: rgb(22,22,22) !important; }
@@ -586,20 +587,20 @@
 /******************************* Top bar (channel name, description, buttons, search etc.) *******************************/
 
 
-    .chat div[class^='titleWrapper'] .header-toolbar { position: relative; }
+    div[class^='chat-'] div[class^='titleWrapper'] .header-toolbar { position: relative; }
 
-    .chat div[class^='titleWrapper'] .header-toolbar button {
+    div[class^='chat-'] div[class^='titleWrapper'] .header-toolbar button {
         background: transparent;
         width: 25px;
         height: 25px;
         margin-top: 2px;
     }
 
-    .chat .header-toolbar button:first-of-type {
+    div[class^='chat-'] .header-toolbar button:first-of-type {
         margin-right: 7px;
     }
 
-    .chat .header-toolbar button:first-of-type:after {
+    div[class^='chat-'] .header-toolbar button:first-of-type:after {
         content: " ";
         border-right: 1px solid hsla(0,0%,85%,.1);
         position: absolute;
@@ -609,7 +610,7 @@
         top: 4px;
     }
 
-    .chat div[class^='titleWrapper'] .header-toolbar button span {
+    div[class^='chat-'] div[class^='titleWrapper'] .header-toolbar button span {
         width: 25px;
         height: 25px;
         background-size: 23px;
@@ -631,7 +632,7 @@
 /******************************* Text chat section *******************************/
 
     /* Bottom chat area (the padded container including the input box and typing indicator) */
-    .chat form {
+    div[class^='chat-'] form {
         margin: 0;
         padding: 0 17px;
         background: rgb(22,22,22) !important;
@@ -640,28 +641,31 @@
     }
 
     /* Input box */
-    .chat form > div:first-child { margin: 10px 0 26px; }
-    .chat form > div:first-child textarea { font-size: 15px !important; }
-    .chat form > div:first-child > div:first-child { background-color: rgb(27,27,27); }
-    .chat form div[class^='typing'] { padding-left: 20px; }
+    div[class^='chat-'] form > div:first-child { margin: 10px 0 26px; }
+    div[class^='chat-'] form > div:first-child textarea { font-size: 15px !important; }
+    div[class^='chat-'] form > div:first-child > div:first-child { background-color: rgb(27,27,27); }
+    div[class^='chat-'] form div[class^='typing'] { padding-left: 20px; }
 
     /* Message section header */
-    .chat > div[class^='titleWrapper'] > div {
+    div[class^='chat-'] > div[class^='titleWrapper'] > div {
         min-height: 48px;
         box-shadow: none;
         border-bottom: none !important;
     }
-    .chat div[class^='titleWrapper'] div[class^='titleText'] { color: #fff; }
-    .chat > div[class^='titleWrapper'] > div > div[class^='title'] .channel-name::before { color: #738BD7; }
-    .chat .jump-to-present-bar { background-color: rgb(47,47,47) !important; }
-    .chat .jump-to-present-bar:hover { background-color: rgb(57,57,57) !important; }
-    .chat .jump-to-present-bar button { color: #FFF !important; }
+    div[class^='chat-'] div[class^='titleWrapper'] div[class^='titleText'] { color: #fff; }
+    div[class^='chat-'] > div[class^='titleWrapper'] > div > div[class^='title'] .channel-name::before { color: #738BD7; }
+    div[class^='chat-'] .jump-to-present-bar { background-color: rgb(47,47,47) !important; }
+    div[class^='chat-'] .jump-to-present-bar:hover { background-color: rgb(57,57,57) !important; }
+    div[class^='chat-'] .jump-to-present-bar button { color: #FFF !important; }
 
     /* Message textarea */
-    .channel-textarea { margin: 10px 0 30px; }
-    .channel-textarea-inner { background-color: hsla(0,0%,100%,.04) !important; border-color: rgba(255, 255, 255, 0.04); }
-    .channel-textarea-inner textarea { color: hsla(0,0%,100%,.7); font-size: 1rem !important; }
-    .channel-textarea-upload { border-color: #1c1e22; }
+    div[class^='channelTextArea'] {
+        margin: 10px 0 30px;
+        padding-top: 0;
+    }
+    div[class^='channelTextArea'] .da-inner { background-color: hsla(0,0%,100%,.04) !important; border-color: rgba(255, 255, 255, 0.04); }
+    div[class^='channelTextArea'] .da-inner textarea { color: hsla(0,0%,100%,.7); font-size: 1rem !important; }
+    div[class^='channelTextArea'] .da-uploadInput { border-color: #1c1e22; }
 
     /* Message styling */
     .da-messages > div[class^='container'] .da-divider {
@@ -746,7 +750,7 @@
     .reaction:hover { background: rgb(37,37,37) !important; }
 
     /* Emote menu */
-    .channel-textarea-emoji > .sprite-item {
+    div[class^='channelTextArea']-emoji > .sprite-item {
         background-image: url(https://static-cdn.jtvnw.net/emoticons/v1/81249/1.0) !important;
         transform: scale(0.8);
         opacity: 0.8;
@@ -756,8 +760,8 @@
         background-size: 30px 30px !important;
         background-position: initial !important;
     }
-    .channel-textarea-emoji.popout-open > .sprite-item,
-    .channel-textarea-emoji > .sprite-item:hover {
+    div[class^='channelTextArea']-emoji.popout-open > .sprite-item,
+    div[class^='channelTextArea']-emoji > .sprite-item:hover {
         background-image: url(https://static-cdn.jtvnw.net/emoticons/v1/81248/1.0) !important;
         transform: scale(1) !important;
         opacity: 1;
@@ -772,7 +776,7 @@
     }
 
     /* Expanded description */
-    .chat div[class^='titleWrapper'] .topic .topic-full {
+    div[class^='chat-'] div[class^='titleWrapper'] .topic .topic-full {
         background-color: rgba(0,0,0,0.98) !important;
         border-bottom: none;
         box-shadow: none;
@@ -788,12 +792,13 @@
         border-width: 0 4px 0 0;
     }
 
-    .chat .divider { height: 10px !important; }
-    .chat .divider > div { background: #474a4f; }
-    .chat .messages-wrapper, .chat .messages-wrapper .scroller-wrap { padding-bottom: 3px; }
-    .messages-wrapper .messages .divider div { background: rgb(47,47,47) !important; }
-    .messages-wrapper .messages .divider.divider-red>div { background: #f04747 !important; }
-    .friends-table .messages .divider:before, .friends-table .messages .divider span, .messages-wrapper .messages .divider:before, .messages-wrapper .messages .divider span { background-color: transparent !important; }
+    div[class^='chat-'] .da-divider {
+        height: 10px !important;
+    }
+    div[class^='chat-'] .da-messagesWrapper, div[class^='chat-'] .da-messagesWrapper .scroller-wrap { padding-bottom: 3px; }
+    .da-messagesWrapper .messages .da-divider div { background: rgb(47,47,47) !important; }
+    .da-messagesWrapper .messages .da-divider.da-dividerRed>div { background: #f04747 !important; }
+    .friends-table .messages .da-divider:before, .friends-table .messages .da-divider span, .da-messagesWrapper .messages .da-divider:before, .da-messagesWrapper .messages .da-divider span { background-color: transparent !important; }
     .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) pre {
         background: rgb(27,27,27) !important;
         border-color: rgb(27,27,27) !important;
@@ -805,13 +810,13 @@
     .da-messages > div[class^='container'] .da-markup:not([class*='embed']) pre code {
         background: transparent !important;
     }
-    .messages-wrapper .messages .da-embed {
+    .da-messagesWrapper .messages .da-embed {
         border-color: rgb(47,47,47) !important;
     }
 
     /* Messages from blocked people */
     .friends-table .messages .da-messages > .da-container-blocked,
-    .messages-wrapper .messages .da-messages > .da-container-blocked {
+    .da-messagesWrapper .messages .da-messages > .da-container-blocked {
         display: none;
     }
 
@@ -1056,14 +1061,6 @@
         background-size: 0 0;
     }
 
-    /* Typing indicator */
-    .status-typing {
-        width: 26px !important;
-        right: -11px !important;
-        overflow: hidden;
-        right: -5px !important;
-    }
-
 
 /******************************* Search tab **********************************/
 
@@ -1177,23 +1174,23 @@
     .private-channels .channel a .channel-activity { font-size: 13px !important; }
 
     .friends-table .messages .da-messages > .da-container.da-messages > .da-containerCompact .user-name,
-    .messages-wrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .user-name {
+    .da-messagesWrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .user-name {
         color: #f9f9f9;
     }
 
     .friends-table .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) code.inline,
     .friends-table .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) pre code,
-    .messages-wrapper .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) code.inline {
+    .da-messagesWrapper .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) code.inline {
         background: rgb(27,27,27) !important;
     }
 
     .friends-table .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp,
-    .messages-wrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp {
+    .da-messagesWrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp {
         color: rgba(255, 255, 255, 0.2) !important;
     }
 
     .friends-table .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover,
-    .messages-wrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover {
+    .da-messagesWrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover {
         color: #99aab5 !important;
     }
     
@@ -1399,7 +1396,9 @@
 
     .bd-minimal .account .username { display: block; }
 
-    .bd-minimal .da-membersWrap div[class*='members-'] div[class*='avatar'] .status-typing {	width: 17px !important;	}
+    .bd-minimal .da-membersWrap div[class*='members-'] div[class*='avatar'] div[class^='typing'] {
+        width: 17px !important;
+    }
 
 
 
