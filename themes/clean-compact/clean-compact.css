@@ -1,4 +1,4 @@
-//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.4"}*//
+//META{"name":"CleanCompact","description":"A dark, compact layout for those who like to save some space","author":"kettui","version":"1.8.5"}*//
 
 /*
     Changelog
@@ -38,6 +38,7 @@
     v1.8.2 (June 24th 2018) Minor embed adjustments
     v1.8.3 (August 2nd 2018) Fix guild icons, restore old chat (message) styling
     v1.8.4 (August 5th 2018) Updated (chat related) selectors
+    v1.8.4 (August 6th 2018) More selector updates, divider & code block fixes
  */
 
 
@@ -83,6 +84,7 @@
     .da-channels,
     .private-channels,
     .da-divider,
+    .da-divider span,
     .da-dividerRed span,
     .da-messagesWrapper,
     .rtc-connection-status,
@@ -90,7 +92,7 @@
     .friends-table,
     .private-channels .channel.selected,
     .da-activityFeed,
-    .da-messagesWrapper .messages .da-embedInner,
+    .da-messagesWrapper .da-messages .da-embedInner,
     .da-guildsAdd {
         background: transparent !important;
         background-color: transparent !important;
@@ -100,7 +102,7 @@
     .account .btn,
     .rtc-connection-status .btn,
     .help-container,
-    .da-messagesWrapper .messages .da-divider span {
+    .da-messagesWrapper .da-messages .da-divider span {
         background: transparent !important;
         background-color: transparent !important;
         box-shadow: none;
@@ -796,12 +798,12 @@
         height: 10px !important;
     }
     div[class^='chat-'] .da-messagesWrapper, div[class^='chat-'] .da-messagesWrapper .scroller-wrap { padding-bottom: 3px; }
-    .da-messagesWrapper .messages .da-divider div { background: rgb(47,47,47) !important; }
-    .da-messagesWrapper .messages .da-divider.da-dividerRed>div { background: #f04747 !important; }
-    .friends-table .messages .da-divider:before, .friends-table .messages .da-divider span, .da-messagesWrapper .messages .da-divider:before, .da-messagesWrapper .messages .da-divider span { background-color: transparent !important; }
-    .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) pre {
-        background: rgb(27,27,27) !important;
-        border-color: rgb(27,27,27) !important;
+    .da-messagesWrapper .da-messages .da-divider div { background: rgb(47,47,47) !important; }
+    .da-messagesWrapper .da-messages .da-divider.da-dividerRed>div { background: #f04747 !important; }
+    .friends-table .da-messages .da-divider:before, .friends-table .da-messages .da-divider span, .da-messages .da-divider:before, .da-messages .da-divider span { background-color: transparent !important; }
+    .da-messages > div[class^='container'] .da-markup:not([class*='embed']) pre {
+        background: rgb(32,32,32) !important;
+        border: none;
         display: inline-block;
         margin-top: -11px !important;
         position: relative !important;
@@ -810,13 +812,13 @@
     .da-messages > div[class^='container'] .da-markup:not([class*='embed']) pre code {
         background: transparent !important;
     }
-    .da-messagesWrapper .messages .da-embed {
+    .da-messagesWrapper .da-messages .da-embed {
         border-color: rgb(47,47,47) !important;
     }
 
     /* Messages from blocked people */
-    .friends-table .messages .da-messages > .da-container-blocked,
-    .da-messagesWrapper .messages .da-messages > .da-container-blocked {
+    .friends-table .da-messages .da-messages > .da-container-blocked,
+    .da-messagesWrapper .da-messages .da-messages > .da-container-blocked {
         display: none;
     }
 
@@ -1173,24 +1175,24 @@
     .private-channels .channel a .channel-game strong span { font-size: 9px !important; }
     .private-channels .channel a .channel-activity { font-size: 13px !important; }
 
-    .friends-table .messages .da-messages > .da-container.da-messages > .da-containerCompact .user-name,
-    .da-messagesWrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .user-name {
+    .friends-table .da-messages .da-messages > .da-container.da-messages > .da-containerCompact .user-name,
+    .da-messagesWrapper .da-messages .da-messages > .da-container.da-messages > .da-containerCompact .user-name {
         color: #f9f9f9;
     }
 
-    .friends-table .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) code.inline,
-    .friends-table .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) pre code,
-    .da-messagesWrapper .messages .da-messages > div[class^='container'] .da-comment .da-markup:not([class*='embed']) code.inline {
-        background: rgb(27,27,27) !important;
+    .da-messages > div[class^='container'] .da-markup:not([class*='embed']) code.da-inline,
+    .da-messages > div[class^='container'] .da-markup:not([class*='embed']) pre code,
+    .da-messages > div[class^='container'] .da-markup:not([class*='embed']) code.da-inline {
+        background: rgb(32,32,32) !important;
     }
 
-    .friends-table .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp,
-    .da-messagesWrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp {
+    .friends-table .da-messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp,
+    .da-messagesWrapper .da-messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp {
         color: rgba(255, 255, 255, 0.2) !important;
     }
 
-    .friends-table .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover,
-    .da-messagesWrapper .messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover {
+    .friends-table .da-messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover,
+    .da-messagesWrapper .da-messages .da-messages > .da-container.da-messages > .da-containerCompact .timestamp:hover {
         color: #99aab5 !important;
     }
     
